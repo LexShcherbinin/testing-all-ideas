@@ -1,0 +1,12 @@
+.idea/
+*target/**
+*/allure-results/**
+.allure/
+*.iml
+*/build/**
+*/klee-kai-ui/**
+# Project exclude paths
+/.gradle/
+# Project exclude paths
+/build/
+/build/classes/java/main/
