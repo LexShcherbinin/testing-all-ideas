@@ -14,8 +14,8 @@ public class ClosingDeadlineAppeals {
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("07.07.2023 04:00", FORMAT);
-    int hourForTask = 12;
+    var currentDateTime = LocalDateTime.parse("07.07.2023 10:00", FORMAT);
+    int hourForTask = 9;
 
     String result = calculating(currentDateTime, hourForTask).format(FORMAT);
 
@@ -55,8 +55,8 @@ public class ClosingDeadlineAppeals {
       } else {
         expectedDateTime = currentDateTime.plusHours(hours);
 
-        if (isAfterWorkingTime(expectedDateTime)) {
-          expectedDateTime = expectedDateTime.plusDays(1).minusHours(9);
+        if (!isWorkingTime(expectedDateTime)) {
+          expectedDateTime = expectedDateTime.plusDays(1).minusHours(WORKING_HOURS);
         }
 
       }
@@ -93,17 +93,17 @@ public class ClosingDeadlineAppeals {
 
   private static boolean isWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
-    return time.isAfter(TIME_FROM) && time.isBefore(TIME_TO);
+    return time.isAfter(LocalTime.parse("09:59", TIME)) && time.isBefore(LocalTime.parse("19:00", TIME));
   }
 
   private static boolean isBeforeWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
-    return time.isAfter(LocalTime.parse("00:00", TIME)) && time.isBefore(TIME_FROM);
+    return time.isAfter(LocalTime.parse("00:00", TIME)) && time.isBefore(LocalTime.parse("10:00", TIME));
   }
 
   private static boolean isAfterWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
-    return time.isAfter(TIME_TO) && time.isBefore(LocalTime.parse("23:59", TIME));
+    return time.isAfter(LocalTime.parse("19:00", TIME)) && time.isBefore(LocalTime.parse("23:59", TIME));
   }
 
 }
