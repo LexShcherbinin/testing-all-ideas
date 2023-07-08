@@ -11,12 +11,11 @@ public class ClosingDeadlineAppeals {
   private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
   public static final LocalTime TIME_FROM = LocalTime.parse("10:00", TIME);
   public static final LocalTime TIME_TO = LocalTime.parse("19:00", TIME);
-  public static final LocalTime MIDNIGHT = LocalTime.parse("00:00", TIME);
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("07.07.2023 20:00", FORMAT);
-    int hourForTask = 9;
+    var currentDateTime = LocalDateTime.parse("07.07.2023 04:00", FORMAT);
+    int hourForTask = 12;
 
     String result = calculating(currentDateTime, hourForTask).format(FORMAT);
 
@@ -25,47 +24,58 @@ public class ClosingDeadlineAppeals {
 
   public static LocalDateTime calculating(LocalDateTime currentDateTime, int hoursForTask) {
     //Количество дней, которое нужно прибавить
-    int a = hoursForTask / WORKING_HOURS;
+    int hoursAsDay = hoursForTask / WORKING_HOURS;
 
     //Количество часов, которое нужно прибавить
-    int b = hoursForTask % WORKING_HOURS;
+    int hours = hoursForTask % WORKING_HOURS;
 
     LocalDateTime expectedDateTime = currentDateTime;
 
-    //Прибавление часов с учётом выходных и рабочего времени
+    if (isWorkingDay(currentDateTime)) {
 
-    while (!isWorkingDay(expectedDateTime)) {
-      expectedDateTime = expectedDateTime.with(TIME_FROM).plusDays(1);
-    }
+      if (isBeforeWorkingTime(currentDateTime)) {
 
-    if (isWorkingTime(expectedDateTime)) {
-      expectedDateTime = expectedDateTime.plusHours(b);
+        if (hours == 0) {
+          expectedDateTime = currentDateTime.with(TIME_TO);
+          hoursAsDay--;
 
-      if (!isWorkingTime(expectedDateTime)) {
-        expectedDateTime = expectedDateTime.plusDays(1).minusHours(9);
-      }
+        } else {
+          expectedDateTime = currentDateTime.with(TIME_FROM).plusHours(hours);
+        }
 
-    } else if (isBeforeWorkingTime(expectedDateTime)) {
-      if (b == 0) {
-        expectedDateTime = expectedDateTime.with(TIME_TO);
-        a--;
+      } else if (isAfterWorkingTime(currentDateTime)) {
+
+        if (hours == 0) {
+          expectedDateTime = currentDateTime.with(TIME_TO);
+
+        } else {
+          expectedDateTime = currentDateTime.with(TIME_FROM).plusDays(1).plusHours(hours);
+        }
 
       } else {
-        expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(b);
+        expectedDateTime = currentDateTime.plusHours(hours);
+
+        if (isAfterWorkingTime(expectedDateTime)) {
+          expectedDateTime = expectedDateTime.plusDays(1).minusHours(9);
+        }
+
       }
 
     } else {
-      if (b == 0) {
-        expectedDateTime = expectedDateTime.with(TIME_TO);
+      if (hours == 0) {
+        expectedDateTime = expectedDateTime.plusDays(1).with(TIME_TO);
+        hoursAsDay--;
 
       } else {
-        expectedDateTime = expectedDateTime.with(TIME_FROM).plusDays(1).plusHours(b);
+        expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(hours);
       }
-
     }
 
-    //Прибавление дней с учётом выходных
-    for (int i = 1; i <= a; i++) {
+    while (!isWorkingDay(expectedDateTime)) {
+      expectedDateTime = expectedDateTime.plusDays(1);
+    }
+
+    for (int i = 1; i <= hoursAsDay; i++) {
       expectedDateTime = expectedDateTime.plusDays(1);
 
       while (!isWorkingDay(expectedDateTime)) {
@@ -88,7 +98,12 @@ public class ClosingDeadlineAppeals {
 
   private static boolean isBeforeWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
-    return time.isAfter(MIDNIGHT) && time.isBefore(TIME_FROM);
+    return time.isAfter(LocalTime.parse("00:00", TIME)) && time.isBefore(TIME_FROM);
+  }
+
+  private static boolean isAfterWorkingTime(LocalDateTime day) {
+    LocalTime time = day.toLocalTime();
+    return time.isAfter(TIME_TO) && time.isBefore(LocalTime.parse("23:59", TIME));
   }
 
 }
