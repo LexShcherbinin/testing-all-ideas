@@ -27,7 +27,7 @@ public class ClosingDeadlineAppeals {
   }
 
   /**
-   * Рассчёт дедлайна выполнения обращения.
+   * Расчёт дедлайна выполнения обращения.
    *
    * @param currentDateTime - время создания обращения.
    * @param hoursForTask    - количество часов, отведённых на выполнение.

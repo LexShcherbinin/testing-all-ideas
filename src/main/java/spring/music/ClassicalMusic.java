@@ -1,4 +1,4 @@
-package spring;
+package spring.music;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
