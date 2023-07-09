@@ -14,7 +14,7 @@ public class ClosingDeadlineAppeals {
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("07.07.2023 10:00", FORMAT);
+    var currentDateTime = LocalDateTime.parse("07.07.2023 19:45", FORMAT);
     int hourForTask = 9;
 
     String result = calculating(currentDateTime, hourForTask).format(FORMAT);
@@ -31,56 +31,78 @@ public class ClosingDeadlineAppeals {
 
     LocalDateTime expectedDateTime = currentDateTime;
 
-    if (isWorkingDay(currentDateTime)) {
+//    if (isWorkingDay(currentDateTime)) {
+//
+//      if (isBeforeWorkingTime(currentDateTime)) {
+//
+//        if (hours == 0) {
+//          expectedDateTime = currentDateTime.with(TIME_TO);
+//          hoursAsDay--;
+//
+//        } else {
+//          expectedDateTime = currentDateTime.with(TIME_FROM).plusHours(hours);
+//        }
+//
+//      } else if (isAfterWorkingTime(currentDateTime)) {
+//
+//        if (hours == 0) {
+//          expectedDateTime = currentDateTime.with(TIME_TO);
+//
+//        } else {
+//          expectedDateTime = currentDateTime.with(TIME_FROM).plusDays(1).plusHours(hours);
+//        }
+//
+//      } else {
+//        expectedDateTime = currentDateTime.plusHours(hours);
+//
+//        if (!isWorkingTime(expectedDateTime)) {
+//          expectedDateTime = expectedDateTime.plusDays(1).minusHours(WORKING_HOURS);
+//        }
+//
+//      }
+//
+//    } else {
+//      if (hours == 0) {
+//        expectedDateTime = expectedDateTime.plusDays(1).with(TIME_TO);
+//        hoursAsDay--;
+//
+//      } else {
+//        expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(hours);
+//      }
+//    }
+//
+//    while (!isWorkingDay(expectedDateTime)) {
+//      expectedDateTime = expectedDateTime.plusDays(1);
+//    }
+//
+//    for (int i = 1; i <= hoursAsDay; i++) {
+//      expectedDateTime = expectedDateTime.plusDays(1);
+//
+//      while (!isWorkingDay(expectedDateTime)) {
+//        expectedDateTime = expectedDateTime.plusDays(1);
+//      }
+//    }
 
-      if (isBeforeWorkingTime(currentDateTime)) {
-
-        if (hours == 0) {
-          expectedDateTime = currentDateTime.with(TIME_TO);
-          hoursAsDay--;
-
-        } else {
-          expectedDateTime = currentDateTime.with(TIME_FROM).plusHours(hours);
-        }
-
-      } else if (isAfterWorkingTime(currentDateTime)) {
-
-        if (hours == 0) {
-          expectedDateTime = currentDateTime.with(TIME_TO);
-
-        } else {
-          expectedDateTime = currentDateTime.with(TIME_FROM).plusDays(1).plusHours(hours);
-        }
-
-      } else {
-        expectedDateTime = currentDateTime.plusHours(hours);
-
-        if (!isWorkingTime(expectedDateTime)) {
-          expectedDateTime = expectedDateTime.plusDays(1).minusHours(WORKING_HOURS);
-        }
-
-      }
-
-    } else {
-      if (hours == 0) {
-        expectedDateTime = expectedDateTime.plusDays(1).with(TIME_TO);
-        hoursAsDay--;
-
-      } else {
-        expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(hours);
-      }
+    if (!isWorkingDayAndTime(expectedDateTime)) {
+      expectedDateTime = expectedDateTime.withMinute(0);
     }
 
-    while (!isWorkingDay(expectedDateTime)) {
-      expectedDateTime = expectedDateTime.plusDays(1);
+    while (!isWorkingDayAndTime(expectedDateTime)) {
+      expectedDateTime = expectedDateTime.plusHours(1);
     }
 
-    for (int i = 1; i <= hoursAsDay; i++) {
-      expectedDateTime = expectedDateTime.plusDays(1);
+    for (int i = 1; i <= hoursForTask; i++) {
 
-      while (!isWorkingDay(expectedDateTime)) {
-        expectedDateTime = expectedDateTime.plusDays(1);
+      expectedDateTime = expectedDateTime.plusHours(1);
+
+      if (i == hoursForTask && expectedDateTime.toLocalTime().equals(LocalTime.parse("19:00", TIME))) {
+        break;
       }
+
+      while (!isWorkingDayAndTime(expectedDateTime)) {
+        expectedDateTime = expectedDateTime.plusHours(1);
+      }
+
     }
 
     return expectedDateTime;
@@ -94,6 +116,10 @@ public class ClosingDeadlineAppeals {
   private static boolean isWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
     return time.isAfter(LocalTime.parse("09:59", TIME)) && time.isBefore(LocalTime.parse("19:00", TIME));
+  }
+
+  private static boolean isWorkingDayAndTime(LocalDateTime day) {
+    return isWorkingDay(day) && isWorkingTime(day);
   }
 
   private static boolean isBeforeWorkingTime(LocalDateTime day) {
