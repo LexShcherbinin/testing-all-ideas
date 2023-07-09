@@ -5,83 +5,36 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Расчёт времени дедлайна закрытия обращения. Рабочие часы: пн - пт с 10:00 до 19:00. Обращение может быть заведено в любое
+ * время. Часы на выполнение обращения принимают значение от 1 до 1000. Обращение считается принятым в работу в момент подачи.
+ * Если обращение подано в нерабочее время, начало выполнения работ по нему переносится на 10:00 следующего рабочего дня. Если
+ * дедлайн выпадает на 19:00, то он не переносится на 10:00 следующего рабочего дня.
+ */
 public class ClosingDeadlineAppeals {
 
   public static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
   private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
-  public static final LocalTime TIME_FROM = LocalTime.parse("10:00", TIME);
+  public static final LocalTime TIME_FROM = LocalTime.parse("09:59", TIME);
   public static final LocalTime TIME_TO = LocalTime.parse("19:00", TIME);
-  public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
     var currentDateTime = LocalDateTime.parse("07.07.2023 19:45", FORMAT);
     int hourForTask = 9;
 
-    String result = calculating(currentDateTime, hourForTask).format(FORMAT);
-
+    String result = calculatingDeadline(currentDateTime, hourForTask).format(FORMAT);
     System.out.println(result);
   }
 
-  public static LocalDateTime calculating(LocalDateTime currentDateTime, int hoursForTask) {
-    //Количество дней, которое нужно прибавить
-    int hoursAsDay = hoursForTask / WORKING_HOURS;
-
-    //Количество часов, которое нужно прибавить
-    int hours = hoursForTask % WORKING_HOURS;
-
+  /**
+   * Рассчёт дедлайна выполнения обращения.
+   *
+   * @param currentDateTime - время создания обращения.
+   * @param hoursForTask    - количество часов, отведённых на выполнение.
+   * @return - возвращает дату и время дедлайна закрытия обращения.
+   */
+  public static LocalDateTime calculatingDeadline(LocalDateTime currentDateTime, int hoursForTask) {
     LocalDateTime expectedDateTime = currentDateTime;
-
-//    if (isWorkingDay(currentDateTime)) {
-//
-//      if (isBeforeWorkingTime(currentDateTime)) {
-//
-//        if (hours == 0) {
-//          expectedDateTime = currentDateTime.with(TIME_TO);
-//          hoursAsDay--;
-//
-//        } else {
-//          expectedDateTime = currentDateTime.with(TIME_FROM).plusHours(hours);
-//        }
-//
-//      } else if (isAfterWorkingTime(currentDateTime)) {
-//
-//        if (hours == 0) {
-//          expectedDateTime = currentDateTime.with(TIME_TO);
-//
-//        } else {
-//          expectedDateTime = currentDateTime.with(TIME_FROM).plusDays(1).plusHours(hours);
-//        }
-//
-//      } else {
-//        expectedDateTime = currentDateTime.plusHours(hours);
-//
-//        if (!isWorkingTime(expectedDateTime)) {
-//          expectedDateTime = expectedDateTime.plusDays(1).minusHours(WORKING_HOURS);
-//        }
-//
-//      }
-//
-//    } else {
-//      if (hours == 0) {
-//        expectedDateTime = expectedDateTime.plusDays(1).with(TIME_TO);
-//        hoursAsDay--;
-//
-//      } else {
-//        expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(hours);
-//      }
-//    }
-//
-//    while (!isWorkingDay(expectedDateTime)) {
-//      expectedDateTime = expectedDateTime.plusDays(1);
-//    }
-//
-//    for (int i = 1; i <= hoursAsDay; i++) {
-//      expectedDateTime = expectedDateTime.plusDays(1);
-//
-//      while (!isWorkingDay(expectedDateTime)) {
-//        expectedDateTime = expectedDateTime.plusDays(1);
-//      }
-//    }
 
     if (!isWorkingDayAndTime(expectedDateTime)) {
       expectedDateTime = expectedDateTime.withMinute(0);
@@ -92,7 +45,6 @@ public class ClosingDeadlineAppeals {
     }
 
     for (int i = 1; i <= hoursForTask; i++) {
-
       expectedDateTime = expectedDateTime.plusHours(1);
 
       if (i == hoursForTask && expectedDateTime.toLocalTime().equals(LocalTime.parse("19:00", TIME))) {
@@ -108,28 +60,36 @@ public class ClosingDeadlineAppeals {
     return expectedDateTime;
   }
 
+  /**
+   * Определяет, попадает ли текущая дата в рабочие дни.
+   *
+   * @param day - дата и время.
+   * @return - возвращает true, если дата приходится на рабочие дни, и false во всех остальных случаях.
+   */
   private static boolean isWorkingDay(LocalDateTime day) {
     DayOfWeek dayOfWeek = day.getDayOfWeek();
     return dayOfWeek != DayOfWeek.SATURDAY && day.getDayOfWeek() != DayOfWeek.SUNDAY;
   }
 
+  /**
+   * Определяет, попадает ли текущее время в рабочие часы.
+   *
+   * @param day - дата и время.
+   * @return - возвращает true, если время приходится на время обработки обращений, и false во всех остальных случаях.
+   */
   private static boolean isWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
-    return time.isAfter(LocalTime.parse("09:59", TIME)) && time.isBefore(LocalTime.parse("19:00", TIME));
+    return time.isAfter(TIME_FROM) && time.isBefore(TIME_TO);
   }
 
+  /**
+   * Определяет, попадает ли текущая дата и время во время обработки обращений.
+   *
+   * @param day - дата и время.
+   * @return - возвращает true, если дата и время приходятся на время обработки обращений, и false во всех остальных случаях.
+   */
   private static boolean isWorkingDayAndTime(LocalDateTime day) {
     return isWorkingDay(day) && isWorkingTime(day);
-  }
-
-  private static boolean isBeforeWorkingTime(LocalDateTime day) {
-    LocalTime time = day.toLocalTime();
-    return time.isAfter(LocalTime.parse("00:00", TIME)) && time.isBefore(LocalTime.parse("10:00", TIME));
-  }
-
-  private static boolean isAfterWorkingTime(LocalDateTime day) {
-    LocalTime time = day.toLocalTime();
-    return time.isAfter(LocalTime.parse("19:00", TIME)) && time.isBefore(LocalTime.parse("23:59", TIME));
   }
 
 }

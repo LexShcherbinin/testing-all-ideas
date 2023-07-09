@@ -1,7 +1,7 @@
 package closingdeadlineappeals;
 
 import static closingdeadlineappeals.ClosingDeadlineAppeals.FORMAT;
-import static closingdeadlineappeals.ClosingDeadlineAppeals.calculating;
+import static closingdeadlineappeals.ClosingDeadlineAppeals.calculatingDeadline;
 import static org.testng.Assert.assertEquals;
 
 import java.time.LocalDateTime;
@@ -133,7 +133,7 @@ public class ClosingDeadlineAppealsTests {
   @Test(dataProvider = "dataProvider")
   public void testTest(String createDateTime, int hours, String expectedValue) {
     LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, FORMAT);
-    String actualValue = calculating(currentDateTime, hours).format(FORMAT);
+    String actualValue = calculatingDeadline(currentDateTime, hours).format(FORMAT);
 
     assertEquals(
         actualValue, expectedValue,
