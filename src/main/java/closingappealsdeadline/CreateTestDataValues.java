@@ -1,5 +1,6 @@
 package closingappealsdeadline;
 
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineFastVersion;
 import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.DATE_TIME_FORMAT;
 import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.calculatingDeadlineLongVersion;
 
@@ -30,6 +31,7 @@ public class CreateTestDataValues {
       while (actualDateTime.getDayOfYear() <= END_DATE_TIME.getDayOfYear()) {
         actualDateTime = actualDateTime.plusMinutes(1);
         LocalDateTime expectedDateTime = calculatingDeadlineLongVersion(actualDateTime, hour);
+//        LocalDateTime expectedDateTime = calculatingDeadlineFastVersion(actualDateTime, hour);
 
         String result = String.format(
             RESULT_TEMPLATE,
