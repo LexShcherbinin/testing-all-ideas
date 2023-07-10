@@ -21,7 +21,7 @@ public class ClosingDeadlineAppeals {
   public static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("07.07.2023 17:53", DATE_TIME_FORMAT);
+    var currentDateTime = LocalDateTime.parse("12.07.2023 13:00", DATE_TIME_FORMAT);
     int hourForTask = 1;
 
     String result = calculatingDeadline(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
