@@ -34,30 +34,30 @@ public class ClosingDeadlineAppeals {
    * @return - возвращает дату и время дедлайна закрытия обращения.
    */
   public static LocalDateTime calculatingDeadline(LocalDateTime currentDateTime, int hoursForTask) {
-    LocalDateTime expectedDateTime = currentDateTime;
+    LocalDateTime deadline = currentDateTime;
 
-    if (!isWorkingDayAndTime(expectedDateTime)) {
-      expectedDateTime = expectedDateTime.withMinute(0);
+    if (!isWorkingDayAndTime(deadline)) {
+      deadline = deadline.withMinute(0);
     }
 
-    while (!isWorkingDayAndTime(expectedDateTime)) {
-      expectedDateTime = expectedDateTime.plusHours(1);
+    while (!isWorkingDayAndTime(deadline)) {
+      deadline = deadline.plusHours(1);
     }
 
     for (int i = 1; i <= hoursForTask; i++) {
-      expectedDateTime = expectedDateTime.plusHours(1);
+      deadline = deadline.plusHours(1);
 
-      if (i == hoursForTask && expectedDateTime.toLocalTime().equals(LocalTime.parse("19:00", TIME))) {
+      if (i == hoursForTask && deadline.toLocalTime().equals(TIME_TO)) {
         break;
       }
 
-      while (!isWorkingDayAndTime(expectedDateTime)) {
-        expectedDateTime = expectedDateTime.plusHours(1);
+      while (!isWorkingDayAndTime(deadline)) {
+        deadline = deadline.plusHours(1);
       }
 
     }
 
-    return expectedDateTime;
+    return deadline;
   }
 
   /**
