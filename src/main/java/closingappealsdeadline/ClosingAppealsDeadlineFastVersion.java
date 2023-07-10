@@ -1,7 +1,6 @@
 package closingappealsdeadline;
 
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +22,7 @@ public class ClosingAppealsDeadlineFastVersion {
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("04.07.2023 03:51", DATE_TIME_FORMAT);
+    var currentDateTime = LocalDateTime.parse("04.07.2023 19:03", DATE_TIME_FORMAT);
     int hourForTask = 9;
 
     String result = calculatingDeadlineFastVersion(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
@@ -53,25 +52,28 @@ public class ClosingAppealsDeadlineFastVersion {
 
       if (isBeforeWorkingTime(currentDateTime)) {
 
-        if (hours == 0) {
-          deadline = deadline.with(TIME_TO);
+//        if (hours == 0) {
+//          deadline = deadline.with(TIME_TO);
+//
+//          if (hoursAsDay == 0 && hoursAsWeek > 0) {
+//            hoursAsWeek--;
+//            hoursAsDay = 4;
+//
+//          } else {
+//            hoursAsDay--;
+//          }
 
-          if (hoursAsDay == 0 && hoursAsWeek > 0) {
-            hoursAsWeek--;
-            hoursAsDay = 4;
+//        } else {
+//          deadline = deadline.with(TIME_FROM).plusHours(hours);
+//        }
 
-          } else {
-            hoursAsDay--;
-          }
-
-        } else {
-          deadline = deadline.with(TIME_FROM).plusHours(hours);
-        }
+        deadline = deadline.with(TIME_FROM).plusHours(hours);
 
       } else if (isAfterWorkingTime(currentDateTime)) {
 
         if (hours == 0) {
-          deadline = deadline.with(TIME_TO);
+//          deadline = deadline.with(TIME_TO);
+          deadline = deadline.plusDays(1).with(TIME_FROM);
 
         } else {
           deadline = deadline.with(TIME_FROM).plusDays(1).plusHours(hours);
@@ -87,20 +89,21 @@ public class ClosingAppealsDeadlineFastVersion {
       }
 
     } else {
-      if (hours == 0) {
-        deadline = deadline.plusDays(1).with(TIME_TO);
+//      if (hours == 0) {
+//        deadline = deadline.plusDays(1).with(TIME_TO);
+//
+//        if (hoursAsDay == 0 && hoursAsWeek > 0) {
+//          hoursAsWeek--;
+//          hoursAsDay = 4;
+//
+//        } else {
+//          hoursAsDay--;
+//        }
+//      } else {
+//        deadline = deadline.with(TIME_FROM).plusHours(hours);
+//      }
 
-        if (hoursAsDay == 0 && hoursAsWeek > 0) {
-          hoursAsWeek--;
-          hoursAsDay = 4;
-
-        } else {
-          hoursAsDay--;
-        }
-
-      } else {
-        deadline = deadline.with(TIME_FROM).plusHours(hours);
-      }
+      deadline = deadline.with(TIME_FROM).plusHours(hours);
     }
 
     if (deadline.getDayOfWeek().getValue() == 7) {
