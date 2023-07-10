@@ -22,8 +22,8 @@ public class ClosingAppealsDeadlineFastVersion {
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("12.07.2023 13:00", DATE_TIME_FORMAT);
-    int hourForTask = 1;
+    var currentDateTime = LocalDateTime.parse("08.07.2023 19:45", DATE_TIME_FORMAT);
+    int hourForTask = 9;
 
     String result = calculatingDeadlineFastVersion(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
     System.out.println(result);
@@ -37,36 +37,58 @@ public class ClosingAppealsDeadlineFastVersion {
    * @return - возвращает дату и время дедлайна закрытия обращения с округлением минут до десятков в большую сторону.
    */
   public static LocalDateTime calculatingDeadlineFastVersion(LocalDateTime currentDateTime, int hoursForTask) {
+    //Количество недель, которое нужно прибавить
+    int hoursAsWeek = hoursForTask / WORKING_HOURS / 5;
+
     //Количество дней, которое нужно прибавить
-    int hoursAsDay = hoursForTask / WORKING_HOURS;
+    int hoursAsDay = (hoursForTask - hoursAsWeek * 5 * WORKING_HOURS) / WORKING_HOURS;
+
     //Количество часов, которое нужно прибавить
-    int hours = hoursForTask % WORKING_HOURS;
+    int hours = hoursForTask - hoursAsWeek * 5 * WORKING_HOURS - hoursAsDay * WORKING_HOURS;
 
     LocalDateTime expectedDateTime = currentDateTime;
+
+//    if (expectedDateTime.getDayOfWeek().getValue() == 7) {
+//      expectedDateTime = expectedDateTime.plusDays(1);
+//
+//    } else if (expectedDateTime.getDayOfWeek().getValue() == 6) {
+//      expectedDateTime = expectedDateTime.plusDays(2);
+//    }
+
+//    if (expectedDateTime.getDayOfWeek().getValue() + hoursAsDay > 5) {
+//      expectedDateTime = expectedDateTime.plusDays(2);
+//    }
 
     if (isWorkingDay(currentDateTime)) {
 
       if (isBeforeWorkingTime(currentDateTime)) {
 
         if (hours == 0) {
-          expectedDateTime = currentDateTime.with(TIME_TO);
-          hoursAsDay--;
+          expectedDateTime = expectedDateTime.with(TIME_TO);
+
+          if (hoursAsDay == 0 && hoursAsWeek > 0) {
+            hoursAsWeek--;
+            hoursAsDay = 6;
+
+          } else {
+            hoursAsDay--;
+          }
 
         } else {
-          expectedDateTime = currentDateTime.with(TIME_FROM).plusHours(hours);
+          expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(hours);
         }
 
       } else if (isAfterWorkingTime(currentDateTime)) {
 
         if (hours == 0) {
-          expectedDateTime = currentDateTime.with(TIME_TO);
+          expectedDateTime = expectedDateTime.with(TIME_TO);
 
         } else {
-          expectedDateTime = currentDateTime.with(TIME_FROM).plusDays(1).plusHours(hours);
+          expectedDateTime = expectedDateTime.with(TIME_FROM).plusDays(1).plusHours(hours);
         }
 
       } else {
-        expectedDateTime = currentDateTime.plusHours(hours);
+        expectedDateTime = expectedDateTime.plusHours(hours);
 
         if (!isWorkingTime(expectedDateTime)) {
           expectedDateTime = expectedDateTime.plusDays(1).minusHours(WORKING_HOURS);
@@ -77,24 +99,57 @@ public class ClosingAppealsDeadlineFastVersion {
     } else {
       if (hours == 0) {
         expectedDateTime = expectedDateTime.plusDays(1).with(TIME_TO);
-        hoursAsDay--;
+
+        if (hoursAsDay == 0 && hoursAsWeek > 0) {
+          hoursAsWeek--;
+          hoursAsDay = 6;
+
+        } else {
+          hoursAsDay--;
+        }
 
       } else {
         expectedDateTime = expectedDateTime.with(TIME_FROM).plusHours(hours);
       }
     }
 
-    while (!isWorkingDay(expectedDateTime)) {
-      expectedDateTime = expectedDateTime.plusDays(1);
-    }
-
-    for (int i = 1; i <= hoursAsDay; i++) {
+    if (expectedDateTime.getDayOfWeek().getValue() == 7) {
       expectedDateTime = expectedDateTime.plusDays(1);
 
-      while (!isWorkingDay(expectedDateTime)) {
-        expectedDateTime = expectedDateTime.plusDays(1);
-      }
+    } else if (expectedDateTime.getDayOfWeek().getValue() == 6) {
+      expectedDateTime = expectedDateTime.plusDays(2);
     }
+
+    if (expectedDateTime.getDayOfWeek().getValue() + hoursAsDay > 5) {
+      expectedDateTime = expectedDateTime.plusDays(2);
+    }
+
+    expectedDateTime = expectedDateTime.plusWeeks(hoursAsWeek).plusDays(hoursAsDay);
+
+//    if (expectedDateTime.getDayOfWeek().getValue() > 5) {
+//      expectedDateTime = expectedDateTime.plusDays(2);
+//    }
+
+//    if (expectedDateTime.getDayOfWeek().getValue() == 7) {
+//      expectedDateTime = expectedDateTime.plusDays(1);
+//
+//    } else if (expectedDateTime.getDayOfWeek().getValue() == 6) {
+//      expectedDateTime = expectedDateTime.plusDays(2);
+//    }
+
+
+
+//    while (!isWorkingDay(expectedDateTime)) {
+//      expectedDateTime = expectedDateTime.plusDays(1);
+//    }
+//
+//    for (int i = 1; i <= hoursAsDay; i++) {
+//      expectedDateTime = expectedDateTime.plusDays(1);
+//
+//      while (!isWorkingDay(expectedDateTime)) {
+//        expectedDateTime = expectedDateTime.plusDays(1);
+//      }
+//    }
 
     return expectedDateTime;
   }
@@ -118,7 +173,7 @@ public class ClosingAppealsDeadlineFastVersion {
    */
   private static boolean isWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
-    return time.isAfter(TIME_FROM) && time.isBefore(TIME_TO);
+    return time.isAfter(LocalTime.parse("09:59", TIME_FORMAT)) && time.isBefore(LocalTime.parse("19:00", TIME_FORMAT));
   }
 
   /**
