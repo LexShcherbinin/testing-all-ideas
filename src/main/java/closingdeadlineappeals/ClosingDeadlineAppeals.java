@@ -13,16 +13,18 @@ import java.time.format.DateTimeFormatter;
  */
 public class ClosingDeadlineAppeals {
 
-  public static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-  private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
-  public static final LocalTime TIME_FROM = LocalTime.parse("09:59", TIME);
-  public static final LocalTime TIME_TO = LocalTime.parse("19:00", TIME);
+  private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+  private static final LocalTime TIME_FROM = LocalTime.parse("09:59", TIME_FORMAT);
+  private static final LocalTime TIME_TO = LocalTime.parse("19:00", TIME_FORMAT);
+  private static final int ROUNDING_MINUTES = 10;
+
+  public static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("07.07.2023 19:45", FORMAT);
-    int hourForTask = 9;
+    var currentDateTime = LocalDateTime.parse("07.07.2023 17:53", DATE_TIME_FORMAT);
+    int hourForTask = 1;
 
-    String result = calculatingDeadline(currentDateTime, hourForTask).format(FORMAT);
+    String result = calculatingDeadline(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
     System.out.println(result);
   }
 
@@ -31,7 +33,7 @@ public class ClosingDeadlineAppeals {
    *
    * @param currentDateTime - время создания обращения.
    * @param hoursForTask    - количество часов, отведённых на выполнение.
-   * @return - возвращает дату и время дедлайна закрытия обращения.
+   * @return - возвращает дату и время дедлайна закрытия обращения с округлением минут до десятков в большую сторону.
    */
   public static LocalDateTime calculatingDeadline(LocalDateTime currentDateTime, int hoursForTask) {
     LocalDateTime deadline = currentDateTime;
@@ -55,6 +57,11 @@ public class ClosingDeadlineAppeals {
         deadline = deadline.plusHours(1);
       }
 
+    }
+
+    if (deadline.toLocalTime().getMinute() % ROUNDING_MINUTES != 0) {
+      int minutes = deadline.toLocalTime().getMinute() / ROUNDING_MINUTES * ROUNDING_MINUTES;
+      deadline = deadline.withMinute(minutes).plusMinutes(ROUNDING_MINUTES);
     }
 
     return deadline;

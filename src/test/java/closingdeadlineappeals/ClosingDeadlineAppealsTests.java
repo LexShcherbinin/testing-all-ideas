@@ -1,6 +1,6 @@
 package closingdeadlineappeals;
 
-import static closingdeadlineappeals.ClosingDeadlineAppeals.FORMAT;
+import static closingdeadlineappeals.ClosingDeadlineAppeals.DATE_TIME_FORMAT;
 import static closingdeadlineappeals.ClosingDeadlineAppeals.calculatingDeadline;
 import static org.testng.Assert.assertEquals;
 
@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class ClosingDeadlineAppealsTests {
 
-  @DataProvider(name = "dataProvider", parallel = true)
+  @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() {
     return new Object[][] {
         {"07.07.2023 19:15", 2, "10.07.2023 12:00"},
@@ -132,8 +132,8 @@ public class ClosingDeadlineAppealsTests {
 
   @Test(dataProvider = "dataProvider")
   public void testTest(String createDateTime, int hours, String expectedValue) {
-    LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, FORMAT);
-    String actualValue = calculatingDeadline(currentDateTime, hours).format(FORMAT);
+    LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, DATE_TIME_FORMAT);
+    String actualValue = calculatingDeadline(currentDateTime, hours).format(DATE_TIME_FORMAT);
 
     assertEquals(
         actualValue, expectedValue,
