@@ -17,11 +17,11 @@ import org.testng.annotations.Test;
 
 public class CheckCodeFromMpaCoreTests {
 
-  @DataProvider(name = "dataProvider", parallel = true)
+  @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() throws IOException {
 //    CreateAllValues.createAllValues();
 
-    int hour = 17;
+    int hour = 63;
     String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 //    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
@@ -37,8 +37,8 @@ public class CheckCodeFromMpaCoreTests {
   @Test(dataProvider = "dataProvider")
   public void testTest(String createDateTime, String hours, String expectedValue) {
     LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, DATE_TIME_FORMAT);
-//    String actualValue = calculateDeadlineDate(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
-    String actualValue = calculatingDeadlineFastVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
+    String actualValue = calculateDeadlineDate(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
+//    String actualValue = calculatingDeadlineFastVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
 
     assertEquals(
         actualValue, expectedValue,

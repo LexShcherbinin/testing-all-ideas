@@ -73,14 +73,19 @@ public class CodeFromMpaCore {
     if (dayOfWeek > 5) {
       countWeek = days / 7;
       dayInWeek = days % 7;
+      days = countWeek * 7;
+      int a = (dayOfWeek + dayInWeek) % 7;
+      if (a == 6 || a == 0) {
+        dayInWeek = dayInWeek + 2;
+      }
     } else {
       countWeek = days / 5;
       dayInWeek = days % 5;
-    }
-    days = countWeek * 7;
-    int a = (dayOfWeek + dayInWeek) % 7;
-    if (a == 6 || a == 0) {
-      dayInWeek = dayInWeek + 2;
+      days = countWeek * 7;
+      int a = (dayOfWeek + dayInWeek);
+      if (a > 5) {
+        dayInWeek = dayInWeek + 2;
+      }
     }
     days = days + dayInWeek;
     System.out.println("days = " + days);
