@@ -1,6 +1,6 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadline.DATE_TIME_FORMAT;
+import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.DATE_TIME_FORMAT;
 import static closingappealsdeadline.CodeFromMpaCore.calculateDeadlineDate;
 import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
 import static org.testng.Assert.assertEquals;
