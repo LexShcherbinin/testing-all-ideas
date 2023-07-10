@@ -23,8 +23,8 @@ public class ClosingAppealsDeadlineFastVersion {
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("04.07.2023 23:59", DATE_TIME_FORMAT);
-    int hourForTask = 1;
+    var currentDateTime = LocalDateTime.parse("04.07.2023 03:51", DATE_TIME_FORMAT);
+    int hourForTask = 9;
 
     String result = calculatingDeadlineFastVersion(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
     System.out.println(result);

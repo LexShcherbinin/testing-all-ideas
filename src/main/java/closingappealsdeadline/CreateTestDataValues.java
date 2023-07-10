@@ -17,7 +17,7 @@ public class CreateTestDataValues {
   public static final String FILE_NAME_TEMPLATE = "src/main/resources/closingappealsdeadline/Hours%s.txt";
 
   public static void main(String[] args) throws IOException {
-    createOneFileWithAllHours();
+    createOneFilePerHour();
   }
 
   public static void createOneFilePerHour() throws IOException {
@@ -26,7 +26,7 @@ public class CreateTestDataValues {
       String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 
       //Создание выходного файла с удалением содержимого
-      FileWriter outputFile = new FileWriter(fileName, false);
+      FileWriter outputFile = new FileWriter(fileName, true);
 
       while (actualDateTime.getDayOfYear() <= END_DATE_TIME.getDayOfYear()) {
         actualDateTime = actualDateTime.plusMinutes(1);
