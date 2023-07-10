@@ -22,8 +22,8 @@ public class ClosingAppealsDeadlineFastVersion {
   public static final int WORKING_HOURS = 9;
 
   public static void main(String[] args) {
-    var currentDateTime = LocalDateTime.parse("08.07.2023 19:45", DATE_TIME_FORMAT);
-    int hourForTask = 9;
+    var currentDateTime = LocalDateTime.parse("06.08.2023 01:00", DATE_TIME_FORMAT);
+    int hourForTask = 45;
 
     String result = calculatingDeadlineFastVersion(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
     System.out.println(result);
@@ -68,7 +68,7 @@ public class ClosingAppealsDeadlineFastVersion {
 
           if (hoursAsDay == 0 && hoursAsWeek > 0) {
             hoursAsWeek--;
-            hoursAsDay = 6;
+            hoursAsDay = 4;
 
           } else {
             hoursAsDay--;
@@ -102,7 +102,7 @@ public class ClosingAppealsDeadlineFastVersion {
 
         if (hoursAsDay == 0 && hoursAsWeek > 0) {
           hoursAsWeek--;
-          hoursAsDay = 6;
+          hoursAsDay = 4;
 
         } else {
           hoursAsDay--;
