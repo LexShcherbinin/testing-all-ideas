@@ -20,6 +20,8 @@ public class ClosingDeadlineAppealsTests2 {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() throws IOException {
+    CreateAllValues.createAllValues();
+
     int hour = 1;
     String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 

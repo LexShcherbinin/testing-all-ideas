@@ -49,9 +49,9 @@ public class ClosingDeadlineAppeals {
     for (int i = 1; i <= hoursForTask; i++) {
       deadline = deadline.plusHours(1);
 
-      if (i == hoursForTask && deadline.toLocalTime().equals(TIME_TO)) {
-        break;
-      }
+//      if (i == hoursForTask && deadline.toLocalTime().equals(TIME_TO)) {
+//        break;
+//      }
 
       while (!isWorkingDayAndTime(deadline)) {
         deadline = deadline.plusHours(1);
@@ -62,6 +62,11 @@ public class ClosingDeadlineAppeals {
     if (deadline.toLocalTime().getMinute() % ROUNDING_MINUTES != 0) {
       int minutes = deadline.toLocalTime().getMinute() / ROUNDING_MINUTES * ROUNDING_MINUTES;
       deadline = deadline.withMinute(minutes).plusMinutes(ROUNDING_MINUTES);
+
+    } else {
+      if (isWorkingDayAndTime(currentDateTime)) {
+        deadline = deadline.plusMinutes(10);
+      }
     }
 
     return deadline;

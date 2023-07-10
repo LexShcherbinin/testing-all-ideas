@@ -17,7 +17,7 @@ public class Main {
   private static int timezone = 3;
 
   public static void main(String[] args) {
-    calculateDeadlineDate(LocalDateTime.parse("12.07.2023 13:00", DATE_TIME_FORMAT), 1);
+    calculateDeadlineDate(LocalDateTime.parse("12.07.2023 10:00", DATE_TIME_FORMAT), 1);
   }
 
   public static LocalDateTime calculateDeadlineDate(LocalDateTime nowDate, int timeForDecide) {

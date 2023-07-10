@@ -19,8 +19,8 @@ public class CreateAllValues {
     createAllValues();
   }
 
-  private static void createAllValues() throws IOException {
-    for (int hour = 1; hour <= 90; hour++) {
+  public static void createAllValues() throws IOException {
+    for (int hour = 1; hour <= 27; hour++) {
       LocalDateTime actualDateTime = START_DATE_TIME;
       String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 
