@@ -1,28 +1,26 @@
-package closingdeadlineappeals;
+package closingappealsdeadline;
 
-import static closingdeadlineappeals.ClosingDeadlineAppeals.DATE_TIME_FORMAT;
-import static closingdeadlineappeals.ClosingDeadlineAppeals.calculatingDeadline;
-import static closingdeadlineappeals.CreateAllValues.FILE_NAME_TEMPLATE;
-import static closingdeadlineappeals.Main.calculateDeadlineDate;
+import static closingappealsdeadline.ClosingAppealsDeadline.DATE_TIME_FORMAT;
+import static closingappealsdeadline.CodeFromMpaCore.calculateDeadlineDate;
+import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ClosingDeadlineAppealsTests2 {
+public class CheckCodeFromMpaCoreTests {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() throws IOException {
-    CreateAllValues.createAllValues();
+//    CreateAllValues.createAllValues();
 
-    int hour = 1;
+    int hour = 63;
     String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 
     List<Object[]> list = Files.readAllLines(Paths.get(fileName))

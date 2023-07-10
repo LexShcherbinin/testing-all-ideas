@@ -1,10 +1,10 @@
-package closingdeadlineappeals;
+package closingappealsdeadline;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Main {
+public class CodeFromMpaCore {
 
   private static final int TEN_MINUTE_SHIFT = 10;
   private static final int MINUTES_IN_HOUR = 60;

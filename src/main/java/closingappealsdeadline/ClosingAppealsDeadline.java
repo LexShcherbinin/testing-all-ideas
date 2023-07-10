@@ -1,4 +1,4 @@
-package closingdeadlineappeals;
+package closingappealsdeadline;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
  * Если обращение подано в нерабочее время, начало выполнения работ по нему переносится на 10:00 следующего рабочего дня. Если
  * дедлайн выпадает на 19:00, то он не переносится на 10:00 следующего рабочего дня.
  */
-public class ClosingDeadlineAppeals {
+public class ClosingAppealsDeadline {
 
   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
   private static final LocalTime TIME_FROM = LocalTime.parse("09:59", TIME_FORMAT);
@@ -24,18 +24,18 @@ public class ClosingDeadlineAppeals {
     var currentDateTime = LocalDateTime.parse("12.07.2023 13:00", DATE_TIME_FORMAT);
     int hourForTask = 1;
 
-    String result = calculatingDeadline(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
+    String result = calculatingDeadlineLongVersion(currentDateTime, hourForTask).format(DATE_TIME_FORMAT);
     System.out.println(result);
   }
 
   /**
-   * Расчёт дедлайна выполнения обращения.
+   * Расчёт дедлайна выполнения обращения. Долгая версия.
    *
    * @param currentDateTime - время создания обращения.
    * @param hoursForTask    - количество часов, отведённых на выполнение.
    * @return - возвращает дату и время дедлайна закрытия обращения с округлением минут до десятков в большую сторону.
    */
-  public static LocalDateTime calculatingDeadline(LocalDateTime currentDateTime, int hoursForTask) {
+  public static LocalDateTime calculatingDeadlineLongVersion(LocalDateTime currentDateTime, int hoursForTask) {
     LocalDateTime deadline = currentDateTime;
 
     if (!isWorkingDayAndTime(deadline)) {

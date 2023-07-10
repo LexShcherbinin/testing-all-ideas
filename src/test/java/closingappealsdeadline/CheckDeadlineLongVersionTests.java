@@ -1,14 +1,14 @@
-package closingdeadlineappeals;
+package closingappealsdeadline;
 
-import static closingdeadlineappeals.ClosingDeadlineAppeals.DATE_TIME_FORMAT;
-import static closingdeadlineappeals.ClosingDeadlineAppeals.calculatingDeadline;
+import static closingappealsdeadline.ClosingAppealsDeadline.DATE_TIME_FORMAT;
+import static closingappealsdeadline.ClosingAppealsDeadline.calculatingDeadlineLongVersion;
 import static org.testng.Assert.assertEquals;
 
 import java.time.LocalDateTime;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ClosingDeadlineAppealsTests {
+public class CheckDeadlineLongVersionTests {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() {
@@ -133,7 +133,7 @@ public class ClosingDeadlineAppealsTests {
   @Test(dataProvider = "dataProvider")
   public void testTest(String createDateTime, int hours, String expectedValue) {
     LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, DATE_TIME_FORMAT);
-    String actualValue = calculatingDeadline(currentDateTime, hours).format(DATE_TIME_FORMAT);
+    String actualValue = calculatingDeadlineLongVersion(currentDateTime, hours).format(DATE_TIME_FORMAT);
 
     assertEquals(
         actualValue, expectedValue,
