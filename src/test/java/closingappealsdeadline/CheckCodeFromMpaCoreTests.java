@@ -16,12 +16,13 @@ import org.testng.annotations.Test;
 
 public class CheckCodeFromMpaCoreTests {
 
-  @DataProvider(name = "dataProvider")
+  @DataProvider(name = "dataProvider", parallel = true)
   public static Object[][] dataProvider() throws IOException {
 //    CreateAllValues.createAllValues();
 
     int hour = 63;
     String fileName = String.format(FILE_NAME_TEMPLATE, hour);
+//    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
     List<Object[]> list = Files.readAllLines(Paths.get(fileName))
         .stream()
