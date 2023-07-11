@@ -68,20 +68,15 @@ public class CodeFromMpaCore {
   }
 
   private static int getDays(int days, int dayOfWeek) {
-    int countWeek;
-    int dayInWeek;
+    int countWeek = days / 5;;
+    int dayInWeek = days % 5;
+    days = countWeek * 7;
     if (dayOfWeek > 5) {
-      countWeek = days / 7;
-      dayInWeek = days % 7;
-      days = countWeek * 7;
       int a = (dayOfWeek + dayInWeek) % 7;
       if (a == 6 || a == 0) {
         dayInWeek = dayInWeek + 2;
       }
     } else {
-      countWeek = days / 5;
-      dayInWeek = days % 5;
-      days = countWeek * 7;
       int a = (dayOfWeek + dayInWeek);
       if (a > 5) {
         dayInWeek = dayInWeek + 2;
