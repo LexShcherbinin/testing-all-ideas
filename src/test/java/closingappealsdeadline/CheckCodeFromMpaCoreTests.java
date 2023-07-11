@@ -20,11 +20,9 @@ public class CheckCodeFromMpaCoreTests {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() throws IOException {
-//    CreateAllValues.createAllValues();
-
     int hour = 18;
-//    String fileName = String.format(FILE_NAME_TEMPLATE, hour);
-    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
+    String fileName = String.format(FILE_NAME_TEMPLATE, hour);
+//    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
     List<Object[]> list = Files.readAllLines(Paths.get(fileName))
         .stream()
@@ -39,8 +37,8 @@ public class CheckCodeFromMpaCoreTests {
   public void testTest(String createDateTime, String hours, String expectedValue) {
     LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, DATE_TIME_FORMAT);
 //    String actualValue = calculateDeadlineDate(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
-//    String actualValue = calculatingDeadlineFastVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
-    String actualValue = calculatingDeadlineLongVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
+    String actualValue = calculatingDeadlineFastVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
+//    String actualValue = calculatingDeadlineLongVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
 
     assertEquals(
         actualValue, expectedValue,

@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Расчёт времени дедлайна закрытия обращения. Быстрая (правильная) версия.
+ * Расчёт времени дедлайна закрытия обращения.
  * <p>
  * Рабочие часы: пн - пт с 10:00 до 19:00. Обращение может быть заведено в любое время. Часы на выполнение обращения принимают
  * значение от 1 до 1000. Обращение считается принятым в работу в момент подачи. Если обращение подано в нерабочее время, начало
@@ -27,6 +27,11 @@ public class ClosingAppealsDeadlineFastVersion {
    * Время окончания рабочего дня.
    */
   private static final LocalTime TIME_TO = LocalTime.parse("19:00", TIME_FORMAT);
+
+  /**
+   * Полночь.
+   */
+  private static final LocalTime MIDNIGHT = LocalTime.parse("00:00", TIME_FORMAT);
 
   /**
    * Количество рабочих часов в сутках.
@@ -241,10 +246,10 @@ public class ClosingAppealsDeadlineFastVersion {
   private static boolean isBeforeWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
 
-    boolean isAfter = time.isAfter(LocalTime.parse("00:00", TIME_FORMAT));
-    boolean isBefore = time.isBefore(LocalTime.parse("10:00", TIME_FORMAT));
-    boolean equalsMidNight = time.equals(LocalTime.parse("00:00", TIME_FORMAT));
-    boolean equalsTimeFrom = time.equals(LocalTime.parse("10:00", TIME_FORMAT));
+    boolean isAfter = time.isAfter(MIDNIGHT);
+    boolean isBefore = time.isBefore(TIME_FROM);
+    boolean equalsMidNight = time.equals(MIDNIGHT);
+    boolean equalsTimeFrom = time.equals(TIME_FROM);
 
     return (isAfter && isBefore) || equalsMidNight || equalsTimeFrom;
   }
@@ -258,10 +263,10 @@ public class ClosingAppealsDeadlineFastVersion {
   private static boolean isAfterWorkingTime(LocalDateTime day) {
     LocalTime time = day.toLocalTime();
 
-    boolean isAfter = time.isAfter(LocalTime.parse("19:00", TIME_FORMAT));
-    boolean isBefore = time.isBefore(LocalTime.parse("23:59", TIME_FORMAT));
-    boolean equalsMidNight = time.equals(LocalTime.parse("23:59", TIME_FORMAT));
-    boolean equalsTimeTo = time.equals(LocalTime.parse("19:00", TIME_FORMAT));
+    boolean isAfter = time.isAfter(TIME_TO);
+    boolean isBefore = time.isBefore(MIDNIGHT.minusMinutes(1));
+    boolean equalsMidNight = time.equals(MIDNIGHT.minusMinutes(1));
+    boolean equalsTimeTo = time.equals(TIME_TO);
 
     return (isAfter && isBefore) || equalsMidNight || equalsTimeTo;
   }
