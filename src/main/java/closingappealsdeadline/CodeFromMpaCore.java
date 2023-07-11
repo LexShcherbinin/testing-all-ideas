@@ -30,7 +30,6 @@ public class CodeFromMpaCore {
     int days = timeForDecide / workDay;
     int hours = timeForDecide % workDay;
 
-
     int minute = 0;
 
     if (startWorkDay <= hour && hour < endWorkDay) {
@@ -44,8 +43,6 @@ public class CodeFromMpaCore {
     if (valueDayOfWeek > 5) {
       hours = timeForDecide % workDay;
       minute = 0;
-//      int shift = valueDayOfWeek == 6 ? 2 : 1;
-//      days = days + shift;
     } else {
       if ((hour + timeForDecide % workDay >= endWorkDay)) {
         ++days;
@@ -54,9 +51,7 @@ public class CodeFromMpaCore {
     days = getDays(days, valueDayOfWeek);
     LocalDateTime ldt = nowDate.plusDays(days);
 
-
     LocalDateTime deadline = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth(), startWorkDay + hours, minute);
-// log.info("deadline = {}",deadline);
     System.out.println(deadline);
     return deadline;
   }
@@ -88,28 +83,4 @@ public class CodeFromMpaCore {
     return days;
   }
 
-//  private static int getDays(int days, int dayOfWeek) {
-//    int countWeek;
-//    int dayInWeek;
-//    if (dayOfWeek > 5) {
-//      countWeek = days / 7;
-//      dayInWeek = days % 7;
-//      days = countWeek * 7;
-//      int a = (dayOfWeek + dayInWeek) % 7;
-//      if (a == 6 || a == 0) {
-//        dayInWeek = dayInWeek + 2;
-//      }
-//    } else {
-//      countWeek = days / 5;
-//      dayInWeek = days % 5;
-//      days = countWeek * 7;
-//      int a = (dayOfWeek + dayInWeek);
-//      if (a > 5) {
-//        dayInWeek = dayInWeek + 2;
-//      }
-//    }
-//    days = days + dayInWeek;
-//    System.out.println("days = " + days);
-//    return days;
-//  }
 }

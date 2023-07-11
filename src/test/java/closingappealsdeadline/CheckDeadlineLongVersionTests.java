@@ -1,7 +1,7 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.DATE_TIME_FORMAT;
-import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.calculatingDeadlineLongVersion;
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.DATE_TIME_FORMAT;
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineLongVersion;
 import static org.testng.Assert.assertEquals;
 
 import java.time.LocalDateTime;

@@ -157,6 +157,50 @@ public class ClosingAppealsDeadlineFastVersion {
   }
 
   /**
+   * Расчёт дедлайна выполнения обращения. Долгая (но тоже правильная) версия.
+   *
+   * @param currentDateTime - время создания обращения.
+   * @param hoursForTask    - количество часов, отведённых на выполнение.
+   * @return - возвращает дату и время дедлайна закрытия обращения с округлением минут до десятков в большую сторону.
+   */
+  public static LocalDateTime calculatingDeadlineLongVersion(LocalDateTime currentDateTime, int hoursForTask) {
+    LocalDateTime deadline = currentDateTime;
+
+    if (!isWorkingDayAndTime(deadline)) {
+      deadline = deadline.withMinute(0);
+    }
+
+    while (!isWorkingDayAndTime(deadline)) {
+      deadline = deadline.plusHours(1);
+    }
+
+    for (int i = 1; i <= hoursForTask; i++) {
+      deadline = deadline.plusHours(1);
+
+//      if (i == hoursForTask && deadline.toLocalTime().equals(TIME_TO)) {
+//        break;
+//      }
+
+      while (!isWorkingDayAndTime(deadline)) {
+        deadline = deadline.plusHours(1);
+      }
+
+    }
+
+    if (deadline.toLocalTime().getMinute() % ROUNDING_MINUTES != 0) {
+      int minutes = deadline.toLocalTime().getMinute() / ROUNDING_MINUTES * ROUNDING_MINUTES;
+      deadline = deadline.withMinute(minutes).plusMinutes(ROUNDING_MINUTES);
+
+    } else {
+      if (isWorkingDayAndTime(currentDateTime)) {
+        deadline = deadline.plusMinutes(10);
+      }
+    }
+
+    return deadline;
+  }
+
+  /**
    * Определяет, попадает ли текущая дата в рабочие дни.
    *
    * @param day - дата и время.

@@ -1,7 +1,8 @@
 package closingappealsdeadline;
 
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.DATE_TIME_FORMAT;
 import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineFastVersion;
-import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.DATE_TIME_FORMAT;
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineLongVersion;
 import static closingappealsdeadline.CodeFromMpaCore.calculateDeadlineDate;
 import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
 import static org.testng.Assert.assertEquals;
@@ -21,9 +22,9 @@ public class CheckCodeFromMpaCoreTests {
   public static Object[][] dataProvider() throws IOException {
 //    CreateAllValues.createAllValues();
 
-    int hour = 180;
-    String fileName = String.format(FILE_NAME_TEMPLATE, hour);
-//    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
+    int hour = 18;
+//    String fileName = String.format(FILE_NAME_TEMPLATE, hour);
+    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
     List<Object[]> list = Files.readAllLines(Paths.get(fileName))
         .stream()
@@ -37,8 +38,9 @@ public class CheckCodeFromMpaCoreTests {
   @Test(dataProvider = "dataProvider")
   public void testTest(String createDateTime, String hours, String expectedValue) {
     LocalDateTime currentDateTime = LocalDateTime.parse(createDateTime, DATE_TIME_FORMAT);
-    String actualValue = calculateDeadlineDate(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
+//    String actualValue = calculateDeadlineDate(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
 //    String actualValue = calculatingDeadlineFastVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
+    String actualValue = calculatingDeadlineLongVersion(currentDateTime, Integer.parseInt(hours)).format(DATE_TIME_FORMAT);
 
     assertEquals(
         actualValue, expectedValue,

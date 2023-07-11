@@ -1,17 +1,17 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineFastVersion;
-import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.DATE_TIME_FORMAT;
-import static closingappealsdeadline.ClosingAppealsDeadlineLongVersion.calculatingDeadlineLongVersion;
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.DATE_TIME_FORMAT;
+import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineLongVersion;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class CreateTestDataValues {
+
   private static final LocalDateTime START_DATE_TIME = LocalDateTime.parse("04.07.2023 00:00", DATE_TIME_FORMAT);
-  private static final LocalDateTime END_DATE_TIME = LocalDateTime.parse("12.07.2023 23:59", DATE_TIME_FORMAT);
-//  private static final String RESULT_TEMPLATE = "{\"%s\", %s, \"%s\"},\n";
+  private static final LocalDateTime END_DATE_TIME = LocalDateTime.parse("13.07.2023 23:59", DATE_TIME_FORMAT);
+  //  private static final String RESULT_TEMPLATE = "{\"%s\", %s, \"%s\"},\n";
   private static final String RESULT_TEMPLATE = "%s,%s,%s\n";
 
   public static final String FILE_NAME_TEMPLATE = "src/main/resources/closingappealsdeadline/Hours%s.txt";
@@ -22,7 +22,7 @@ public class CreateTestDataValues {
   }
 
   public static void createOneFilePerHour() throws IOException {
-    for (int hour = 1; hour <= 180; hour++) {
+    for (int hour = 1; hour <= 45; hour++) {
       LocalDateTime actualDateTime = START_DATE_TIME;
       String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 
@@ -55,11 +55,11 @@ public class CreateTestDataValues {
     //Создание выходного файла с удалением содержимого
     FileWriter outputFile = new FileWriter(fileName, false);
 
-    for (int hour = 1; hour <= 1000; hour++) {
+    for (int hour = 1; hour <= 90; hour++) {
       LocalDateTime actualDateTime = START_DATE_TIME;
 
       while (actualDateTime.getDayOfYear() <= END_DATE_TIME.getDayOfYear()) {
-        actualDateTime = actualDateTime.plusMinutes(15);
+        actualDateTime = actualDateTime.plusMinutes(5);
         LocalDateTime expectedDateTime = calculatingDeadlineLongVersion(actualDateTime, hour);
 
         String result = String.format(
