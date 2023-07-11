@@ -17,16 +17,17 @@ public class CreateTestDataValues {
   public static final String FILE_NAME_TEMPLATE = "src/main/resources/closingappealsdeadline/Hours%s.txt";
 
   public static void main(String[] args) throws IOException {
-    createOneFilePerHour();
+//    createOneFilePerHour();
+    createOneFileWithAllHours();
   }
 
   public static void createOneFilePerHour() throws IOException {
-    for (int hour = 1; hour <= 90; hour++) {
+    for (int hour = 1; hour <= 180; hour++) {
       LocalDateTime actualDateTime = START_DATE_TIME;
       String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 
       //Создание выходного файла с удалением содержимого
-      FileWriter outputFile = new FileWriter(fileName, true);
+      FileWriter outputFile = new FileWriter(fileName, false);
 
       while (actualDateTime.getDayOfYear() <= END_DATE_TIME.getDayOfYear()) {
         actualDateTime = actualDateTime.plusMinutes(1);
@@ -54,11 +55,11 @@ public class CreateTestDataValues {
     //Создание выходного файла с удалением содержимого
     FileWriter outputFile = new FileWriter(fileName, false);
 
-    for (int hour = 1; hour <= 10; hour++) {
+    for (int hour = 1; hour <= 1000; hour++) {
       LocalDateTime actualDateTime = START_DATE_TIME;
 
       while (actualDateTime.getDayOfYear() <= END_DATE_TIME.getDayOfYear()) {
-        actualDateTime = actualDateTime.plusMinutes(1);
+        actualDateTime = actualDateTime.plusMinutes(15);
         LocalDateTime expectedDateTime = calculatingDeadlineLongVersion(actualDateTime, hour);
 
         String result = String.format(

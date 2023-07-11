@@ -21,7 +21,7 @@ public class CheckCodeFromMpaCoreTests {
   public static Object[][] dataProvider() throws IOException {
 //    CreateAllValues.createAllValues();
 
-    int hour = 27;
+    int hour = 180;
     String fileName = String.format(FILE_NAME_TEMPLATE, hour);
 //    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
