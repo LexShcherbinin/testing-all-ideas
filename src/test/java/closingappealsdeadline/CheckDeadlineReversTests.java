@@ -1,8 +1,8 @@
 package closingappealsdeadline;
 
 import static closingappealsdeadline.CodeFromMpaCore2.calculateBetweenDateMinutes;
+import static closingappealsdeadline.CreateTestDataValuesForMinuteBetween.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.MinutesBeforeDates.calculatingMinutes;
-import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
 
@@ -19,7 +19,7 @@ public class CheckDeadlineReversTests {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() throws IOException {
-    String fileName = String.format(FILE_NAME_TEMPLATE, "Revers");
+    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
     List<Object[]> list = Files.readAllLines(Paths.get(fileName))
         .stream()

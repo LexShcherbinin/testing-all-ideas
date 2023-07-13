@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * Вспомогательный класс для создания тестовых данных для проверки расчёта дедлайна.
  */
-public class CreateTestDataValues {
+public class CreateTestDataValuesForDeadline {
 
   private static final LocalDateTime START_DATE_TIME = LocalDateTime.parse("04.07.2023 00:00", DATE_TIME_FORMAT);
   private static final LocalDateTime END_DATE_TIME = LocalDateTime.parse("13.07.2023 23:59", DATE_TIME_FORMAT);
