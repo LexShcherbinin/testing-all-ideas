@@ -1,7 +1,7 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.DATE_TIME_FORMAT;
 import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineFastVersion;
+import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ public class CheckDeadlineFastVersionTests {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() {
-    return new Object[][] {
+    return new Object[][]{
         {"07.07.2023 19:15", 2, "10.07.2023 12:00"},
         {"07.07.2023 19:30", 8, "10.07.2023 18:00"},
         {"07.07.2023 19:45", 9, "10.07.2023 19:00"},
@@ -110,23 +110,10 @@ public class CheckDeadlineFastVersionTests {
         {"06.08.2023 01:00", 45, "11.08.2023 19:00"},
         {"06.08.2023 01:00", 180, "01.09.2023 19:00"},
         {"06.08.2023 01:00", 360, "29.09.2023 19:00"},
-        //Создание обращения в выходной. Проверка учета выходных
-//        {"08.08.2023 12:00", 1, "10.07.2023 11:00"},
-//        {"08.08.2023 12:00", 2, "10.07.2023 12:00"},
-//        {"08.08.2023 12:00", 4, "10.07.2023 14:00"},
-//        {"08.08.2023 12:00", 8, "10.07.2023 18:00"},
-//        {"08.08.2023 12:00", 9, "10.07.2023 19:00"},
-//        {"08.08.2023 12:00", 10, "11.07.2023 11:00"},
-//        {"08.08.2023 12:00", 18, "11.07.2023 19:00"},
-//        {"08.08.2023 12:00", 27, "12.07.2023 19:00"},
-//        {"08.08.2023 12:00", 45, "14.07.2023 19:00"},
-//        {"08.08.2023 12:00", 180, "04.08.2023 19:00"},
-//        {"08.08.2023 12:00", 360, "01.09.2023 19:00"},
         //Граничные значения
         {"06.07.2023 19:00", 1, "07.07.2023 11:00"},
         {"07.07.2023 19:00", 1, "10.07.2023 11:00"},
         {"08.07.2023 19:00", 1, "10.07.2023 11:00"},
-
     };
   }
 

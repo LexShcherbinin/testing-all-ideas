@@ -1,52 +1,27 @@
 package closingappealsdeadline;
 
-import java.time.DayOfWeek;
+import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
+import static closingappealsdeadline.WorkingDateTimeHelper.ROUNDING_MINUTES;
+import static closingappealsdeadline.WorkingDateTimeHelper.TIME_FROM;
+import static closingappealsdeadline.WorkingDateTimeHelper.WORKING_DAYS;
+import static closingappealsdeadline.WorkingDateTimeHelper.WORKING_HOURS;
+import static closingappealsdeadline.WorkingDateTimeHelper.isAfterWorkingTime;
+import static closingappealsdeadline.WorkingDateTimeHelper.isBeforeWorkingTime;
+import static closingappealsdeadline.WorkingDateTimeHelper.isWorkingDay;
+import static closingappealsdeadline.WorkingDateTimeHelper.isWorkingDayAndTime;
+import static closingappealsdeadline.WorkingDateTimeHelper.isWorkingTime;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Расчёт времени дедлайна закрытия обращения.
  * <p>
- * Рабочие часы: пн - пт с 10:00 до 19:00. Обращение может быть заведено в любое время. Часы на выполнение обращения принимают
- * значение от 1 до 1000. Обращение считается принятым в работу в момент подачи. Если обращение подано в нерабочее время, начало
- * выполнения работ по нему переносится на 10:00 следующего рабочего дня. Если дедлайн выпадает на 19:00, то он не переносится на
- * 10:00 следующего рабочего дня.
+ * Рабочие часы: пн - пт с 10:00 до 19:00. Обращение может быть заведено в любое время. Часы на выполнение обращения
+ * принимают значение от 1 до 1000. Обращение считается принятым в работу в момент подачи. Если обращение подано в
+ * нерабочее время, начало выполнения работ по нему переносится на 10:00 следующего рабочего дня. Если дедлайн выпадает
+ * на 19:00, то он не переносится на 10:00 следующего рабочего дня.
  */
 public class ClosingAppealsDeadlineFastVersion {
-
-  public static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-  public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
-
-  /**
-   * Время начала рабочего дня.
-   */
-  private static final LocalTime TIME_FROM = LocalTime.parse("10:00", TIME_FORMAT);
-
-  /**
-   * Время окончания рабочего дня.
-   */
-  private static final LocalTime TIME_TO = LocalTime.parse("19:00", TIME_FORMAT);
-
-  /**
-   * Полночь.
-   */
-  private static final LocalTime MIDNIGHT = LocalTime.parse("00:00", TIME_FORMAT);
-
-  /**
-   * Количество рабочих часов в сутках.
-   */
-  private static final int WORKING_HOURS = 9;
-
-  /**
-   * Количество рабочих дней в неделю.
-   */
-  private static final int WORKING_DAYS = 5;
-
-  /**
-   * Время В минутах, до которого требуется округление деделайна.
-   */
-  private static final int ROUNDING_MINUTES = 10;
 
   public static void main(String[] args) {
     var currentDateTime = LocalDateTime.parse("04.07.2023 19:03", DATE_TIME_FORMAT);
@@ -57,8 +32,8 @@ public class ClosingAppealsDeadlineFastVersion {
   }
 
   /**
-   * Расчёт дедлайна выполнения обращения. Быстрая (правильная) версия. Закомментированные участки кода переносят дедлайн с 19:00
-   * на 10:00 следующего рабочего дня.
+   * Расчёт дедлайна выполнения обращения. Быстрая (правильная) версия. Закомментированные участки кода переносят
+   * дедлайн с 19:00 на 10:00 следующего рабочего дня.
    *
    * @param currentDateTime - время создания обращения.
    * @param hoursForTask    - количество часов, отведённых на выполнение.
@@ -203,72 +178,6 @@ public class ClosingAppealsDeadlineFastVersion {
     }
 
     return deadline;
-  }
-
-  /**
-   * Определяет, попадает ли текущая дата в рабочие дни.
-   *
-   * @param day - дата и время.
-   * @return - возвращает true, если дата приходится на рабочие дни, и false во всех остальных случаях.
-   */
-  private static boolean isWorkingDay(LocalDateTime day) {
-    DayOfWeek dayOfWeek = day.getDayOfWeek();
-    return dayOfWeek != DayOfWeek.SATURDAY && day.getDayOfWeek() != DayOfWeek.SUNDAY;
-  }
-
-  /**
-   * Определяет, попадает ли текущее время в рабочие часы.
-   *
-   * @param day - дата и время.
-   * @return - возвращает true, если время приходится на время обработки обращений, и false во всех остальных случаях.
-   */
-  private static boolean isWorkingTime(LocalDateTime day) {
-    LocalTime time = day.toLocalTime();
-    return time.isAfter(LocalTime.parse("09:59", TIME_FORMAT)) && time.isBefore(LocalTime.parse("19:00", TIME_FORMAT));
-  }
-
-  /**
-   * Определяет, попадает ли текущая дата и время во время обработки обращений.
-   *
-   * @param day - дата и время.
-   * @return - возвращает true, если дата и время приходятся на время обработки обращений, и false во всех остальных случаях.
-   */
-  private static boolean isWorkingDayAndTime(LocalDateTime day) {
-    return isWorkingDay(day) && isWorkingTime(day);
-  }
-
-  /**
-   * Определяет, попадает ли текущее время во время до рабочего дня (с 00:00 до 10:00 включительно).
-   *
-   * @param day - дата и время.
-   * @return - возвращает true, если время приходятся на время до рабочего дня, и false во всех остальных случаях.
-   */
-  private static boolean isBeforeWorkingTime(LocalDateTime day) {
-    LocalTime time = day.toLocalTime();
-
-    boolean isAfter = time.isAfter(MIDNIGHT);
-    boolean isBefore = time.isBefore(TIME_FROM);
-    boolean equalsMidNight = time.equals(MIDNIGHT);
-    boolean equalsTimeFrom = time.equals(TIME_FROM);
-
-    return (isAfter && isBefore) || equalsMidNight || equalsTimeFrom;
-  }
-
-  /**
-   * Определяет, попадает ли текущее время во время после рабочего дня (с 19:00 до 23:59 включительно).
-   *
-   * @param day - дата и время.
-   * @return - возвращает true, если время приходятся на время после рабочего дня, и false во всех остальных случаях.
-   */
-  private static boolean isAfterWorkingTime(LocalDateTime day) {
-    LocalTime time = day.toLocalTime();
-
-    boolean isAfter = time.isAfter(TIME_TO);
-    boolean isBefore = time.isBefore(MIDNIGHT.minusMinutes(1));
-    boolean equalsMidNight = time.equals(MIDNIGHT.minusMinutes(1));
-    boolean equalsTimeTo = time.equals(TIME_TO);
-
-    return (isAfter && isBefore) || equalsMidNight || equalsTimeTo;
   }
 
 }

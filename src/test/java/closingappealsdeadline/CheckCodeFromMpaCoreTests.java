@@ -1,10 +1,10 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.DATE_TIME_FORMAT;
 import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineFastVersion;
 import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineLongVersion;
 import static closingappealsdeadline.CodeFromMpaCore.calculateDeadlineDate;
 import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
+import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;

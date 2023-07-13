@@ -1,7 +1,7 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.DATE_TIME_FORMAT;
 import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineLongVersion;
+import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 
 import java.io.FileWriter;
 import java.io.IOException;
