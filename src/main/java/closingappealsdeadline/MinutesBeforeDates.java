@@ -49,11 +49,15 @@ public class MinutesBeforeDates {
       startDateTime = startDateTime.with(TIME_FROM);
     }
 
-    if (startDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
-      startDateTime = startDateTime.plusDays(1);
+//    if (startDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
+//      startDateTime = startDateTime.plusDays(1);
+//
+//    } else if (startDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
+//      startDateTime = startDateTime.plusDays(2);
+//    }
 
-    } else if (startDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
-      startDateTime = startDateTime.plusDays(2);
+    while (!isWorkingDay(startDateTime)) {
+      startDateTime = startDateTime.plusDays(1);
     }
 
     //endDateTime
@@ -71,10 +75,14 @@ public class MinutesBeforeDates {
       endDateTime = endDateTime.with(TIME_TO);
     }
 
-    if (endDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
-      endDateTime = endDateTime.minusDays(2);
+//    if (endDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
+//      endDateTime = endDateTime.minusDays(2);
+//
+//    } else if (endDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
+//      endDateTime = endDateTime.minusDays(1);
+//    }
 
-    } else if (endDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
+    while (!isWorkingDay(endDateTime)) {
       endDateTime = endDateTime.minusDays(1);
     }
 

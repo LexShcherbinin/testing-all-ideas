@@ -109,18 +109,27 @@ public class ClosingAppealsDeadline {
       deadline = deadline.with(TIME_FROM).plusHours(hours);
     }
 
-    if (deadline.getDayOfWeek().getValue() == 7) {
-      deadline = deadline.plusDays(1);
+//    if (deadline.getDayOfWeek().getValue() == 7) {
+//      deadline = deadline.plusDays(1);
+//
+//    } else if (deadline.getDayOfWeek().getValue() == 6) {
+//      deadline = deadline.plusDays(2);
+//    }
 
-    } else if (deadline.getDayOfWeek().getValue() == 6) {
-      deadline = deadline.plusDays(2);
+    while (!isWorkingDay(deadline)) {
+      deadline = deadline.plusDays(1);
     }
 
-    if (deadline.getDayOfWeek().getValue() + hoursAsDay > 5) {
+    if (deadline.getDayOfWeek().getValue() + hoursAsDay > WORKING_DAYS) {
       deadline = deadline.plusDays(2);
     }
 
     deadline = deadline.plusWeeks(hoursAsWeek).plusDays(hoursAsDay);
+
+//    Возможно, не нужное условие. Требуется для учёта праздничных выходных дней.
+//    while (!isWorkingDay(deadline)) {
+//      deadline = deadline.plusDays(1);
+//    }
 
     //Округление минут до десятков в большую сторону
     if (deadline.toLocalTime().getMinute() % ROUNDING_MINUTES != 0) {

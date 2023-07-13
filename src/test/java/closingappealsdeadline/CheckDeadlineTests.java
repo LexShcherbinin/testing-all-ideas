@@ -1,6 +1,7 @@
 package closingappealsdeadline;
 
 import static closingappealsdeadline.ClosingAppealsDeadline.calculatingDeadlineFastVersion;
+import static closingappealsdeadline.CodeFromMpaCore.calculateDeadlineDate;
 import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
@@ -14,13 +15,13 @@ import java.util.stream.Collectors;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class CheckCodeFromMpaCoreTests {
+public class CheckDeadlineTests {
 
   @DataProvider(name = "dataProvider")
   public static Object[][] dataProvider() throws IOException {
-    int hour = 18;
-    String fileName = String.format(FILE_NAME_TEMPLATE, hour);
-//    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
+    int hour = 63;
+//    String fileName = String.format(FILE_NAME_TEMPLATE, hour);
+    String fileName = String.format(FILE_NAME_TEMPLATE, "All");
 
     List<Object[]> list = Files.readAllLines(Paths.get(fileName))
         .stream()
