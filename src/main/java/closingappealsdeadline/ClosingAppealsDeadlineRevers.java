@@ -42,8 +42,8 @@ public class ClosingAppealsDeadlineRevers {
   private static final int ROUNDING_MINUTES = 10;
 
   public static void main(String[] args) {
-    var startDateTime = LocalDateTime.parse("04.07.2023 17:17", DATE_TIME_FORMAT);
-    var endDateTime = LocalDateTime.parse("12.07.2023 15:14", DATE_TIME_FORMAT);
+    var startDateTime = LocalDateTime.parse("14.07.2023 18:00", DATE_TIME_FORMAT);
+    var endDateTime = LocalDateTime.parse("17.07.2023 11:00", DATE_TIME_FORMAT);
 
     long result = calculatingMinutes(startDateTime, endDateTime);
     System.out.println(result);
@@ -53,20 +53,21 @@ public class ClosingAppealsDeadlineRevers {
     LocalDateTime shiftStartDateTime = startDateTime;
     LocalDateTime shiftEndDateTime = endDateTime;
 
+    //shiftStartDateTime
     if (isWorkingDay(shiftStartDateTime)) {
 
       if (isBeforeWorkingTime(shiftStartDateTime)) {
-        shiftStartDateTime.with(TIME_FROM);
+        shiftStartDateTime = shiftStartDateTime.with(TIME_FROM);
 
       } else if (isAfterWorkingTime(shiftStartDateTime)) {
-        shiftStartDateTime.plusDays(1).with(TIME_FROM);
+        shiftStartDateTime = shiftStartDateTime.plusDays(1).with(TIME_FROM);
 
       } else {
 
       }
 
     } else {
-      shiftStartDateTime.with(TIME_FROM);
+      shiftStartDateTime = shiftStartDateTime.with(TIME_FROM);
     }
 
     if (shiftStartDateTime.getDayOfWeek().getValue() == 7) {
@@ -76,7 +77,33 @@ public class ClosingAppealsDeadlineRevers {
       shiftStartDateTime = shiftStartDateTime.plusDays(2);
     }
 
+    //shiftEndDateTime
+    if (isWorkingDay(shiftEndDateTime)) {
 
+      if (isBeforeWorkingTime(shiftEndDateTime)) {
+        shiftEndDateTime = shiftEndDateTime.minusDays(1).with(TIME_TO);
+
+      } else if (isAfterWorkingTime(shiftEndDateTime)) {
+        shiftEndDateTime = shiftEndDateTime.with(TIME_TO);
+
+      } else {
+
+      }
+
+    } else {
+      shiftEndDateTime = shiftEndDateTime.with(TIME_TO);
+    }
+
+    if (shiftEndDateTime.getDayOfWeek().getValue() == 7) {
+      shiftEndDateTime = shiftEndDateTime.minusDays(2);
+
+    } else if (shiftEndDateTime.getDayOfWeek().getValue() == 6) {
+      shiftEndDateTime = shiftEndDateTime.minusDays(1);
+    }
+
+    if (shiftStartDateTime.getDayOfWeek().getValue() > shiftEndDateTime.getDayOfWeek().getValue()) {
+      shiftStartDateTime = shiftStartDateTime.plusDays(2);
+    }
 
 
     long totalWeeks = ChronoUnit.WEEKS.between(shiftStartDateTime, shiftEndDateTime);
@@ -92,7 +119,7 @@ public class ClosingAppealsDeadlineRevers {
 
 
     long totalHours;
-    if (ChronoUnit.HOURS.between(shiftStartDateTime, shiftEndDateTime) >= 9) {
+    if (ChronoUnit.HOURS.between(shiftStartDateTime, shiftEndDateTime) > 9) {
       shiftStartDateTime = shiftStartDateTime.plusDays(1);
       totalDays++;
       totalHours = ChronoUnit.HOURS.between(shiftStartDateTime, shiftEndDateTime);
@@ -120,6 +147,10 @@ public class ClosingAppealsDeadlineRevers {
     long minutesAsMinutes = totalMinutes;
 
     long result = minutesAsWeeks + minutesAsDays + minutesAsHours + minutesAsMinutes;
+
+    if (result < 0) {
+      return 0;
+    }
 
     return result;
   }
