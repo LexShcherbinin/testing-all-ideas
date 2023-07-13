@@ -27,6 +27,11 @@ public class ClosingAppealsDeadlineRevers {
   private static final LocalTime MIDNIGHT = LocalTime.parse("00:00", TIME_FORMAT);
 
   /**
+   * Количество рабочих минут в часе.
+   */
+  private static final int WORKING_MINUTES = 60;
+
+  /**
    * Количество рабочих часов в сутках.
    */
   private static final int WORKING_HOURS = 9;
@@ -67,10 +72,10 @@ public class ClosingAppealsDeadlineRevers {
       startDateTime = startDateTime.with(TIME_FROM);
     }
 
-    if (startDateTime.getDayOfWeek().getValue() == 7) {
+    if (startDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
       startDateTime = startDateTime.plusDays(1);
 
-    } else if (startDateTime.getDayOfWeek().getValue() == 6) {
+    } else if (startDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
       startDateTime = startDateTime.plusDays(2);
     }
 
@@ -89,12 +94,14 @@ public class ClosingAppealsDeadlineRevers {
       endDateTime = endDateTime.with(TIME_TO);
     }
 
+
     if (endDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
       endDateTime = endDateTime.minusDays(2);
 
     } else if (endDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
       endDateTime = endDateTime.minusDays(1);
     }
+
 
     if (startDateTime.getDayOfWeek().getValue() > endDateTime.getDayOfWeek().getValue()) {
       startDateTime = startDateTime.plusDays(2);
@@ -116,7 +123,6 @@ public class ClosingAppealsDeadlineRevers {
     }
 
     long totalHours = ChronoUnit.HOURS.between(startDateTime, endDateTime);
-
     startDateTime = startDateTime.plusHours(totalHours);
 
     if (ChronoUnit.MINUTES.between(startDateTime, endDateTime) < 0) {
@@ -126,9 +132,9 @@ public class ClosingAppealsDeadlineRevers {
 
     long totalMinutes = ChronoUnit.MINUTES.between(startDateTime, endDateTime);
 
-    long minutesAsWeeks = totalWeeks * WORKING_DAYS * WORKING_HOURS * 60;
-    long minutesAsDays = totalDays * WORKING_HOURS * 60;
-    long minutesAsHours = totalHours * 60;
+    long minutesAsWeeks = totalWeeks * WORKING_DAYS * WORKING_HOURS * WORKING_MINUTES;
+    long minutesAsDays = totalDays * WORKING_HOURS * WORKING_MINUTES;
+    long minutesAsHours = totalHours * WORKING_MINUTES;
     long minutesAsMinutes = totalMinutes;
 
     long result = minutesAsWeeks + minutesAsDays + minutesAsHours + minutesAsMinutes;
