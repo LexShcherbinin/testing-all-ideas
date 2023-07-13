@@ -42,107 +42,92 @@ public class ClosingAppealsDeadlineRevers {
   private static final int ROUNDING_MINUTES = 10;
 
   public static void main(String[] args) {
-    var startDateTime = LocalDateTime.parse("14.07.2023 18:00", DATE_TIME_FORMAT);
-    var endDateTime = LocalDateTime.parse("17.07.2023 11:00", DATE_TIME_FORMAT);
+    var startDateTime = LocalDateTime.parse("04.07.2023 18:00", DATE_TIME_FORMAT);
+    var endDateTime = LocalDateTime.parse("18.07.2023 18:00", DATE_TIME_FORMAT);
 
     long result = calculatingMinutes(startDateTime, endDateTime);
     System.out.println(result);
   }
 
-  public static long calculatingMinutes(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    LocalDateTime shiftStartDateTime = startDateTime;
-    LocalDateTime shiftEndDateTime = endDateTime;
+  public static long calculatingMinutes(LocalDateTime createDateTime, LocalDateTime closeDateTime) {
+    LocalDateTime startDateTime = createDateTime;
+    LocalDateTime endDateTime = closeDateTime;
 
-    //shiftStartDateTime
-    if (isWorkingDay(shiftStartDateTime)) {
+    //startDateTime
+    if (isWorkingDay(startDateTime)) {
 
-      if (isBeforeWorkingTime(shiftStartDateTime)) {
-        shiftStartDateTime = shiftStartDateTime.with(TIME_FROM);
+      if (isBeforeWorkingTime(startDateTime)) {
+        startDateTime = startDateTime.with(TIME_FROM);
 
-      } else if (isAfterWorkingTime(shiftStartDateTime)) {
-        shiftStartDateTime = shiftStartDateTime.plusDays(1).with(TIME_FROM);
+      } else if (isAfterWorkingTime(startDateTime)) {
+        startDateTime = startDateTime.plusDays(1).with(TIME_FROM);
+      }
 
-      } else {
+    } else {
+      startDateTime = startDateTime.with(TIME_FROM);
+    }
+
+    if (startDateTime.getDayOfWeek().getValue() == 7) {
+      startDateTime = startDateTime.plusDays(1);
+
+    } else if (startDateTime.getDayOfWeek().getValue() == 6) {
+      startDateTime = startDateTime.plusDays(2);
+    }
+
+    //endDateTime
+    if (isWorkingDay(endDateTime)) {
+
+      if (isBeforeWorkingTime(endDateTime)) {
+        endDateTime = endDateTime.minusDays(1).with(TIME_TO);
+
+      } else if (isAfterWorkingTime(endDateTime)) {
+        endDateTime = endDateTime.with(TIME_TO);
 
       }
 
     } else {
-      shiftStartDateTime = shiftStartDateTime.with(TIME_FROM);
+      endDateTime = endDateTime.with(TIME_TO);
     }
 
-    if (shiftStartDateTime.getDayOfWeek().getValue() == 7) {
-      shiftStartDateTime = shiftStartDateTime.plusDays(1);
+    if (endDateTime.getDayOfWeek() == DayOfWeek.SUNDAY) {
+      endDateTime = endDateTime.minusDays(2);
 
-    } else if (shiftStartDateTime.getDayOfWeek().getValue() == 6) {
-      shiftStartDateTime = shiftStartDateTime.plusDays(2);
+    } else if (endDateTime.getDayOfWeek() == DayOfWeek.SATURDAY) {
+      endDateTime = endDateTime.minusDays(1);
     }
 
-    //shiftEndDateTime
-    if (isWorkingDay(shiftEndDateTime)) {
-
-      if (isBeforeWorkingTime(shiftEndDateTime)) {
-        shiftEndDateTime = shiftEndDateTime.minusDays(1).with(TIME_TO);
-
-      } else if (isAfterWorkingTime(shiftEndDateTime)) {
-        shiftEndDateTime = shiftEndDateTime.with(TIME_TO);
-
-      } else {
-
-      }
-
-    } else {
-      shiftEndDateTime = shiftEndDateTime.with(TIME_TO);
+    if (startDateTime.getDayOfWeek().getValue() > endDateTime.getDayOfWeek().getValue()) {
+      startDateTime = startDateTime.plusDays(2);
     }
 
-    if (shiftEndDateTime.getDayOfWeek().getValue() == 7) {
-      shiftEndDateTime = shiftEndDateTime.minusDays(2);
+    long totalWeeks = ChronoUnit.WEEKS.between(startDateTime, endDateTime);
+    startDateTime = startDateTime.plusWeeks(totalWeeks);
 
-    } else if (shiftEndDateTime.getDayOfWeek().getValue() == 6) {
-      shiftEndDateTime = shiftEndDateTime.minusDays(1);
+    if (ChronoUnit.DAYS.between(startDateTime, endDateTime) >= WORKING_DAYS) {
+      startDateTime = startDateTime.plusDays(2);
     }
 
-    if (shiftStartDateTime.getDayOfWeek().getValue() > shiftEndDateTime.getDayOfWeek().getValue()) {
-      shiftStartDateTime = shiftStartDateTime.plusDays(2);
-    }
+    long totalDays = ChronoUnit.DAYS.between(startDateTime, endDateTime);
+    startDateTime = startDateTime.plusDays(totalDays);
 
-
-    long totalWeeks = ChronoUnit.WEEKS.between(shiftStartDateTime, shiftEndDateTime);
-    shiftStartDateTime = shiftStartDateTime.plusWeeks(totalWeeks);
-
-
-    if (ChronoUnit.DAYS.between(shiftStartDateTime, shiftEndDateTime) >= 5) {
-      shiftStartDateTime = shiftStartDateTime.plusDays(2);
-    }
-
-    long totalDays = ChronoUnit.DAYS.between(shiftStartDateTime, shiftEndDateTime);
-    shiftStartDateTime = shiftStartDateTime.plusDays(totalDays);
-
-
-    long totalHours;
-    if (ChronoUnit.HOURS.between(shiftStartDateTime, shiftEndDateTime) > 9) {
-      shiftStartDateTime = shiftStartDateTime.plusDays(1);
+    if (ChronoUnit.HOURS.between(startDateTime, endDateTime) > WORKING_HOURS) {
+      startDateTime = startDateTime.plusDays(1);
       totalDays++;
-      totalHours = ChronoUnit.HOURS.between(shiftStartDateTime, shiftEndDateTime);
-
-    } else {
-      totalHours = ChronoUnit.HOURS.between(shiftStartDateTime, shiftEndDateTime);
     }
 
-    shiftStartDateTime = shiftStartDateTime.plusHours(totalHours);
+    long totalHours = ChronoUnit.HOURS.between(startDateTime, endDateTime);
 
+    startDateTime = startDateTime.plusHours(totalHours);
 
-    long totalMinutes;
-    if (ChronoUnit.MINUTES.between(shiftStartDateTime, shiftEndDateTime) < 0 ) {
-      shiftStartDateTime = shiftStartDateTime.plusHours(1);
+    if (ChronoUnit.MINUTES.between(startDateTime, endDateTime) < 0) {
+      startDateTime = startDateTime.plusHours(1);
       totalHours++;
-      totalMinutes = ChronoUnit.MINUTES.between(shiftStartDateTime, shiftEndDateTime);
-
-    } else {
-      totalMinutes = ChronoUnit.MINUTES.between(shiftStartDateTime, shiftEndDateTime);
     }
 
-    long minutesAsWeeks = totalWeeks * 5 * 9 * 60;
-    long minutesAsDays = totalDays * 9 * 60;
+    long totalMinutes = ChronoUnit.MINUTES.between(startDateTime, endDateTime);
+
+    long minutesAsWeeks = totalWeeks * WORKING_DAYS * WORKING_HOURS * 60;
+    long minutesAsDays = totalDays * WORKING_HOURS * 60;
     long minutesAsHours = totalHours * 60;
     long minutesAsMinutes = totalMinutes;
 
@@ -181,7 +166,8 @@ public class ClosingAppealsDeadlineRevers {
    * Определяет, попадает ли текущая дата и время во время обработки обращений.
    *
    * @param day - дата и время.
-   * @return - возвращает true, если дата и время приходятся на время обработки обращений, и false во всех остальных случаях.
+   * @return - возвращает true, если дата и время приходятся на время обработки обращений, и false во всех остальных
+   * случаях.
    */
   private static boolean isWorkingDayAndTime(LocalDateTime day) {
     return isWorkingDay(day) && isWorkingTime(day);
