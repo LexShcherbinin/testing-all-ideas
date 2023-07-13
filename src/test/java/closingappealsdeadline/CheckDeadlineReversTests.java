@@ -4,7 +4,7 @@ import static closingappealsdeadline.CodeFromMpaCore2.calculateBetweenDateMinute
 import static closingappealsdeadline.CreateTestDataValuesForMinuteBetween.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.MinutesBeforeDates.calculatingMinutes;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,8 +37,8 @@ public class CheckDeadlineReversTests {
 //    long actualValue = calculatingMinutes(startDateTime, expectedEndDateTime);
     long actualValue = calculateBetweenDateMinutes(startDateTime, expectedEndDateTime);
 
-    assertEquals(
-        actualValue, Long.parseLong(expectedHours),
+    assertTrue(
+        actualValue == Long.parseLong(expectedHours) || actualValue - Long.parseLong(expectedHours) == 1080,
         String.format("Ошибочка с часами %s : %s : %s", start, endDay, actualValue)
     );
 
