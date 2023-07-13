@@ -1,5 +1,6 @@
 package closingappealsdeadline;
 
+import static closingappealsdeadline.CodeFromMpaCore2.calculateBetweenDateMinutes;
 import static closingappealsdeadline.MinutesBeforeDates.calculatingMinutes;
 import static closingappealsdeadline.CreateTestDataValues.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
@@ -33,7 +34,8 @@ public class CheckDeadlineReversTests {
   public void testTest(String start, String endDay, String expectedHours) {
     LocalDateTime startDateTime = LocalDateTime.parse(start, DATE_TIME_FORMAT);
     LocalDateTime expectedEndDateTime = LocalDateTime.parse(endDay, DATE_TIME_FORMAT);
-    long actualValue = calculatingMinutes(startDateTime, expectedEndDateTime);
+//    long actualValue = calculatingMinutes(startDateTime, expectedEndDateTime);
+    long actualValue = calculateBetweenDateMinutes(startDateTime, expectedEndDateTime);
 
     assertEquals(
         actualValue, Long.parseLong(expectedHours),
