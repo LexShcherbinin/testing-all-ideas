@@ -1,6 +1,6 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadlineFastVersion.calculatingDeadlineFastVersion;
+import static closingappealsdeadline.ClosingAppealsDeadline.calculatingDeadlineFastVersion;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
 

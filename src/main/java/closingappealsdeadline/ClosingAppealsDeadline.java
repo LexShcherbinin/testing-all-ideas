@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * нерабочее время, начало выполнения работ по нему переносится на 10:00 следующего рабочего дня. Если дедлайн выпадает
  * на 19:00, то он не переносится на 10:00 следующего рабочего дня.
  */
-public class ClosingAppealsDeadlineFastVersion {
+public class ClosingAppealsDeadline {
 
   public static void main(String[] args) {
     var currentDateTime = LocalDateTime.parse("04.07.2023 19:03", DATE_TIME_FORMAT);

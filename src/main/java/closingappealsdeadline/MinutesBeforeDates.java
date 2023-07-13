@@ -14,7 +14,14 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class ClosingAppealsDeadlineRevers {
+/**
+ * Расчёт количества минут, пройденных между созданием и закрытием обращения с учётом рабочих часов.
+ * <p>
+ * Рабочие часы: пн - пт с 10:00 до 19:00. Обращение может быть и создано и закрыто в любое время. Учитывается время
+ * только в рабочие часы. Если обращение создано в пятницу в 19:01, а закрыто в воскресенье в 12:01, то затраченное
+ * время будет равно 0 минут.
+ */
+public class MinutesBeforeDates {
 
   public static void main(String[] args) {
     var startDateTime = LocalDateTime.parse("04.07.2023 18:00", DATE_TIME_FORMAT);
