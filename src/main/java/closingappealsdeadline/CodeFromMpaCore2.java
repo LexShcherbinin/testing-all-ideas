@@ -38,11 +38,6 @@ public class CodeFromMpaCore2 {
     System.out.println("start = " + start);
     System.out.println("end = " + end);
 
-    Duration between = Duration.between(start, end);
-
-    if (between.toDays() < 1 && start.getDayOfWeek().getValue() < 6) {
-      return between.toMinutes();
-    }
     long countStartMin =
         Duration.between(start,
             LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(), endWorkDay, 0)).toMinutes();
@@ -60,8 +55,7 @@ public class CodeFromMpaCore2 {
 
   private static long extracted(LocalDateTime start, LocalDateTime end) {
     long count = 0;
-    if (start.getDayOfWeek().getValue() >= end.getDayOfWeek().getValue()
-        && Duration.between(start, end).toDays() >= 2) {
+    if (start.getDayOfWeek().getValue() > end.getDayOfWeek().getValue() || Duration.between(start, end).toDays() > 4) {
       int dayOfWeek = start.getDayOfWeek().getValue();
       System.out.println("dayOfWeek = " + dayOfWeek);
       long shift = 2;

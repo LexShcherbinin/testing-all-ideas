@@ -24,8 +24,8 @@ import java.time.temporal.ChronoUnit;
 public class MinutesBeforeDates {
 
   public static void main(String[] args) {
-    var startDateTime = LocalDateTime.parse("04.07.2023 18:00", DATE_TIME_FORMAT);
-    var endDateTime = LocalDateTime.parse("18.07.2023 18:00", DATE_TIME_FORMAT);
+    var startDateTime = LocalDateTime.parse("10.07.2023 10:00", DATE_TIME_FORMAT);
+    var endDateTime = LocalDateTime.parse("16.07.2023 11:00", DATE_TIME_FORMAT);
 
     long result = calculatingMinutes(startDateTime, endDateTime);
     System.out.println(result);
