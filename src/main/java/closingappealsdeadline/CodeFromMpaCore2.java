@@ -39,6 +39,9 @@ public class CodeFromMpaCore2 {
     if (end.compareTo(start) < 1) {
       return 0;
     }
+    if (endWorkDayTime.compareTo(start) >= 0 && startWorkDayTime.compareTo(end) <= 0 && Duration.between(start, end).toMinutes() < 540) {
+      return Duration.between(start, end).toMinutes();
+    }
     long count = extracted(start, end);
 //    System.out.println("count = " + count);
 //    System.out.println("start = " + start);
