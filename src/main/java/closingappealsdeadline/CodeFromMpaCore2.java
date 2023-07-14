@@ -17,7 +17,12 @@ public class CodeFromMpaCore2 {
   private static int timezone = 3;
 
   public static void main(String[] args) {
-    calculateBetweenDateMinutes(LocalDateTime.parse("12.07.2023 10:00"), LocalDateTime.parse("12.07.2023 10:00"));
+    long result = calculateBetweenDateMinutes(
+        LocalDateTime.parse("10.07.2023 18:36", DATE_TIME_FORMAT),
+        LocalDateTime.parse("24.07.2023 17:59", DATE_TIME_FORMAT)
+    );
+
+    System.out.println(result);
   }
 
   public static long calculateBetweenDateMinutes(LocalDateTime start, LocalDateTime end) {
@@ -62,7 +67,7 @@ public class CodeFromMpaCore2 {
       if (dayOfWeek > 5) {
         shift = dayOfWeek == 6 ? 2 : 1;
       }
-      LocalDateTime startShiftDay = start.plusDays(8 - dayOfWeek);
+      LocalDateTime startShiftDay =LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(), 0, 0).plusDays(8 - dayOfWeek);
 
       int dayOfWeekEnd = end.getDayOfWeek().getValue();
       System.out.println("dayOfWeek = " + dayOfWeekEnd);
@@ -70,7 +75,7 @@ public class CodeFromMpaCore2 {
       if (dayOfWeekEnd > 5) {
         shiftEnd = dayOfWeekEnd == 6 ? 1 : 2;
       }
-      LocalDateTime endShiftDay = end.minusDays(dayOfWeekEnd - 1);
+      LocalDateTime endShiftDay = LocalDateTime.of(end.getYear(), end.getMonth(), end.getDayOfMonth(), 0, 0).minusDays(dayOfWeekEnd - 1);
       Duration between = Duration.between(startShiftDay, endShiftDay);
       count = between.toDays() / 7;
       System.out.println("between = " + (count * 2 + shift + shiftEnd));
