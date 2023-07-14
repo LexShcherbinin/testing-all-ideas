@@ -10,7 +10,6 @@ import static closingappealsdeadline.WorkingDateTimeHelper.isAfterWorkingTime;
 import static closingappealsdeadline.WorkingDateTimeHelper.isBeforeWorkingTime;
 import static closingappealsdeadline.WorkingDateTimeHelper.isWorkingDay;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -24,8 +23,8 @@ import java.time.temporal.ChronoUnit;
 public class MinutesBeforeDates {
 
   public static void main(String[] args) {
-    var startDateTime = LocalDateTime.parse("10.07.2023 10:00", DATE_TIME_FORMAT);
-    var endDateTime = LocalDateTime.parse("16.07.2023 11:00", DATE_TIME_FORMAT);
+    var startDateTime = LocalDateTime.parse("14.07.2023 13:29", DATE_TIME_FORMAT);
+    var endDateTime = LocalDateTime.parse("14.07.2023 13:29", DATE_TIME_FORMAT);
 
     long result = calculatingMinutes(startDateTime, endDateTime);
     System.out.println(result);
