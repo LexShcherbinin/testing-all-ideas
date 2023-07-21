@@ -1,4 +1,4 @@
-package closingappealsdeadline;
+package closingappealsdeadline.createtestdata;
 
 import static closingappealsdeadline.ClosingAppealsDeadline.calculatingDeadlineLongVersion;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;

@@ -21,7 +21,7 @@ import java.time.temporal.ChronoUnit;
  * только в рабочие часы. Если обращение создано в пятницу в 19:01, а закрыто в воскресенье в 12:01, то затраченное
  * время будет равно 0 минут.
  */
-public class MinutesBeforeDates {
+public class MinutesBetweenDates {
 
   public static void main(String[] args) {
 //    var startDateTime = LocalDateTime.parse("14.07.2023 13:29", DATE_TIME_FORMAT);

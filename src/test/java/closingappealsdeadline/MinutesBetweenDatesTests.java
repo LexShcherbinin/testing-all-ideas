@@ -1,7 +1,7 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.CodeFromMpaCore2.calculateBetweenDateMinutes;
-import static closingappealsdeadline.CreateTestDataValuesForMinuteBetween.FILE_NAME_TEMPLATE;
+import static closingappealsdeadline.mpacorecode.CodeFromMpaCoreForMinuteBetween.calculateBetweenDateMinutes;
+import static closingappealsdeadline.createtestdata.CreateTestDataValuesForMinuteBetween.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

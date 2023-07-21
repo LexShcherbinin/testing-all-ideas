@@ -1,4 +1,4 @@
-package closingappealsdeadline;
+package closingappealsdeadline.mpacorecode;
 
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 
@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CodeFromMpaCore2 {
+public class CodeFromMpaCoreForMinuteBetween {
 
   private static final int TEN_MINUTE_SHIFT = 10;
   private static final int MINUTES_IN_HOUR = 60;

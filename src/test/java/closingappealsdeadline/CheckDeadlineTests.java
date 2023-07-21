@@ -1,9 +1,7 @@
 package closingappealsdeadline;
 
-import static closingappealsdeadline.ClosingAppealsDeadline.calculatingDeadlineFastVersion;
-import static closingappealsdeadline.ClosingAppealsDeadline.calculatingDeadlineLongVersion;
-import static closingappealsdeadline.CodeFromMpaCore.calculateDeadlineDate;
-import static closingappealsdeadline.CreateTestDataValuesForDeadline.FILE_NAME_TEMPLATE;
+import static closingappealsdeadline.mpacorecode.CodeFromMpaCoreForDeadline.calculateDeadlineDate;
+import static closingappealsdeadline.createtestdata.CreateTestDataValuesForDeadline.FILE_NAME_TEMPLATE;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 import static org.testng.Assert.assertEquals;
 

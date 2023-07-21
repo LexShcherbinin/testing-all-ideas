@@ -1,6 +1,6 @@
-package closingappealsdeadline;
+package closingappealsdeadline.createtestdata;
 
-import static closingappealsdeadline.MinutesBeforeDates.calculatingMinutes;
+import static closingappealsdeadline.MinutesBetweenDates.calculatingMinutes;
 import static closingappealsdeadline.WorkingDateTimeHelper.DATE_TIME_FORMAT;
 
 import java.io.FileWriter;
