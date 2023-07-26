@@ -1,11 +1,11 @@
-package spring;
+package spring.musicplayer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import spring.music.ClassicalMusic;
-import spring.music.RockMusic;
+import spring.musicplayer.music.ClassicalMusic;
+import spring.musicplayer.music.RockMusic;
 
 @Configuration
 @ComponentScan("spring")

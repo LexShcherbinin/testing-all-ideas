@@ -10,25 +10,39 @@ repositories {
     mavenCentral()
 }
 
+project.ext {
+    configVersion="1.4.2"
+    junitJupiterVersion="5.8.2"
+    springVersion="6.0.10"
+    testngVersion="7.8.0"
+    thymeleafVersion="3.1.1.RELEASE"
+}
+
 dependencies {
     //Config
     implementation "com.typesafe:config:${configVersion}"
 
-    //spring
+    //Spring
     implementation "org.springframework:spring-core:${springVersion}"
     implementation "org.springframework:spring-beans:${springVersion}"
     implementation "org.springframework:spring-context:${springVersion}"
+    implementation "org.springframework:spring-web:${springVersion}"
+    implementation "org.springframework:spring-webmvc:${springVersion}"
+
+    //Thymeleaf
+    implementation "org.thymeleaf:thymeleaf-spring5:${thymeleafVersion}"
+
+    //javax
+//    implementation "javax.servlet:javax.servlet-api:4.0.1"
+
+    //jakarta
+    implementation "jakarta.servlet:jakarta.servlet-api:6.0.0"
 
     implementation "javax.annotation:javax.annotation-api:1.3.2"
 
+    //TestNG
     testImplementation "org.testng:testng:${testngVersion}"
 
-    //JUnit
-//    implementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
-//    implementation "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
-//    implementation "org.junit.vintage:junit-vintage-engine:${junitJupiterVersion}"
-//    implementation "org.junit.vintage:junit-jupiter-params:${junitJupiterVersion}"
-    implementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
 }
 
 test {

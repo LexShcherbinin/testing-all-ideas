@@ -1,4 +1,4 @@
-package spring.music;
+package spring.musicplayer.music;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

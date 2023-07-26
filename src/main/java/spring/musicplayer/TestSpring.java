@@ -1,4 +1,4 @@
-package spring;
+package spring.musicplayer;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
