@@ -30,15 +30,15 @@ dependencies {
     implementation "org.springframework:spring-webmvc:${springVersion}"
 
     //Thymeleaf
-    implementation "org.thymeleaf:thymeleaf-spring5:${thymeleafVersion}"
+    implementation "org.thymeleaf:thymeleaf-spring6:${thymeleafVersion}"
 
     //javax
+    implementation "javax.annotation:javax.annotation-api:1.3.2"
 //    implementation "javax.servlet:javax.servlet-api:4.0.1"
+
 
     //jakarta
     implementation "jakarta.servlet:jakarta.servlet-api:6.0.0"
-
-    implementation "javax.annotation:javax.annotation-api:1.3.2"
 
     //TestNG
     testImplementation "org.testng:testng:${testngVersion}"
