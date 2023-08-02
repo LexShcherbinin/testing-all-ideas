@@ -43,6 +43,9 @@ dependencies {
     //TestNG
     testImplementation "org.testng:testng:${testngVersion}"
 
+    //Hibernate
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+
 }
 
 test {
