@@ -28,6 +28,7 @@ dependencies {
     implementation "org.springframework:spring-context:${springVersion}"
     implementation "org.springframework:spring-web:${springVersion}"
     implementation "org.springframework:spring-webmvc:${springVersion}"
+    implementation "org.springframework:spring-jdbc:${springVersion}"
 
     //Thymeleaf
     implementation "org.thymeleaf:thymeleaf-spring6:${thymeleafVersion}"
@@ -44,7 +45,10 @@ dependencies {
     testImplementation "org.testng:testng:${testngVersion}"
 
     //Hibernate
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation "org.hibernate.validator:hibernate-validator:8.0.1.Final"
+
+    //PostgreSQL
+    implementation "org.postgresql:postgresql:42.6.0"
 
 }
 
