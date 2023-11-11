@@ -23,36 +23,36 @@ public class Task_1 {
 
   public static void main(String[] args) {
     Integer[] arrayBefore1 = new Integer[]{1, 3, 1, 3};
-    Integer[] arrayAfter1 = returnNotUniqueElementsArray(arrayBefore1);
+    Object[] arrayAfter1 = returnNotUniqueElementsArray(arrayBefore1);
     printArray(arrayAfter1);
 
     Integer[] arrayBefore2 = new Integer[]{1, 2, 3, 4, 5};
-    Integer[] arrayAfter2 = returnNotUniqueElementsArray(arrayBefore2);
+    Object[] arrayAfter2 = returnNotUniqueElementsArray(arrayBefore2);
     printArray(arrayAfter2);
 
     Integer[] arrayBefore3 = new Integer[]{7, 7, 7, 7};
-    Integer[] arrayAfter3 = returnNotUniqueElementsArray(arrayBefore3);
+    Object[] arrayAfter3 = returnNotUniqueElementsArray(arrayBefore3);
     printArray(arrayAfter3);
 
     Integer[] arrayBefore4 = new Integer[]{10, 9, 10, 10, 9, 8};
-    Integer[] arrayAfter4 = returnNotUniqueElementsArray(arrayBefore4);
+    Object[] arrayAfter4 = returnNotUniqueElementsArray(arrayBefore4);
     printArray(arrayAfter4);
   }
 
-  private static Integer[] returnNotUniqueElementsArray(Integer[] array) {
-    List<Integer> list = Arrays.asList(array);
+  private static Object[] returnNotUniqueElementsArray(Object[] array) {
+    List<Object> list = Arrays.asList(array);
 
     return list
         .stream()
         .filter(a -> {
-          List<Integer> newList = new ArrayList<>(list);
+          List<Object> newList = new ArrayList<>(list);
           newList.removeAll(List.of(a));
           return list.size() - newList.size() > 1;
-        }).toArray(Integer[]::new);
+        }).toArray(Object[]::new);
   }
 
-  private static void printArray(Integer[] array) {
-    for (Integer o : array) {
+  private static void printArray(Object[] array) {
+    for (Object o : array) {
       System.out.print(o + "\t");
     }
     System.out.println();
