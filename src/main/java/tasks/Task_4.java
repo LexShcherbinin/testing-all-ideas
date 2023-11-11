@@ -10,27 +10,46 @@ public class Task_4 {
   public static void main(String[] args) {
     int[] array = createIntArray(20);
     printArray(array);
-    moveZero(array);
+    long startTime = System.nanoTime();
+    moveZeroesVersion1(array);
+    long endTime = System.nanoTime();
     printArray(array);
+    System.out.println("Время выполнения программы = " + (endTime - startTime));
   }
 
-  private static void moveZero(int[] array) {
+  private static void moveZeroesVersion1(int[] array) {
     int zeroCount = 0;
     int i = 0;
 
     while (i < array.length - zeroCount) {
-      if (array[i] != 0) {
+      if (array[i + zeroCount] != 0) {
+        array[i] = array[i + zeroCount];
         i++;
 
       } else {
         zeroCount++;
-
-        for (int j = i; j < array.length - zeroCount; j++) {
-          array[j] = array[j + 1];
-        }
-
-        array[array.length - zeroCount] = 0;
       }
+    }
+
+    while (zeroCount > 0) {
+      array[array.length - zeroCount] = 0;
+      zeroCount--;
+    }
+  }
+
+  public static void moveZeroesVersion2(int[] nums) {
+    int counterWithoutNulls = 0;
+    int counterWithNulls = 0;
+    int length = nums.length;
+    while (counterWithNulls < length) {
+      if (nums[counterWithNulls] == 0) {// находим нулевые элементы и увеличиваем счётчик
+        counterWithNulls++;
+      } else { // сдвигаем элементы на количество найденных нулевых элементов слева
+        nums[counterWithoutNulls++] = nums[counterWithNulls++];
+      }
+    }
+    while (counterWithoutNulls < length) {
+      nums[counterWithoutNulls++] = 0;// заполняем последние элементы массива нулями согласно счётчику нулей
     }
   }
 
