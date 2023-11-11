@@ -13,9 +13,11 @@ public class Task_3 {
 
     int mainSum = getMainDiagonalSum(matrix);
     int subSum = getSubDiagonalSum(matrix);
+    int totalSum = countDiagonalSum(matrix);
 
     System.out.println("Сумма элементов основной диагонали = " + mainSum);
     System.out.println("Сумма элементов дополнительной диагонали = " + subSum);
+    System.out.println("Общая сумма элементов диагонали = " + totalSum);
   }
 
   private static int[][] createMatrix(int size) {
@@ -56,6 +58,17 @@ public class Task_3 {
       }
     }
 
+    return sum;
+  }
+
+  private static int countDiagonalSum(int[][] matrix) {
+    int sum = 0;
+    for (int i = 0, j = matrix.length - 1; i < matrix.length; i++, j--) {
+      sum += matrix[i][i];
+      if (j != i) {
+        sum += matrix[i][j];
+      }
+    }
     return sum;
   }
 
