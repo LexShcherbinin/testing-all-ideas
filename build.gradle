@@ -50,6 +50,9 @@ dependencies {
     //PostgreSQL
     implementation "org.postgresql:postgresql:42.6.0"
 
+    //Project Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+
 }
 
 test {
